@@ -41,13 +41,13 @@ export function Header() {
                         </svg>
                     </div>
 
-                    <span className="text-sm font-semibold tracking-tight">
+                    <span className="text-lg font-semibold tracking-tight">
                         GitHub Analyzer
                     </span>
                 </Link>
 
                 {/* Navegação */}
-                <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+                <nav className="flex items-center gap-4 text-sm text-muted-foreground">
                     <a
                         href="#como-funciona"
                         onClick={(event) =>
