@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 export function DashboardHeader() {
     return (
@@ -34,12 +35,16 @@ export function DashboardHeader() {
                     </span>
                 </div>
 
-                <Link
-                    href="/"
-                    className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
-                >
-                    Nova análise
-                </Link>
+                <div className="flex items-center gap-3">
+                    <Link
+                        href="/"
+                        className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                    >
+                        Nova análise
+                    </Link>
+
+                    <ThemeToggle />
+                </div>
             </div>
         </header>
     );

@@ -7,6 +7,7 @@ import { RepositoryChat } from "@/components/dashboard/RepositoryChat";
 import { RepositoryHeader } from "@/components/dashboard/RepositoryHeader";
 import { RepositoryStats } from "@/components/dashboard/RepositoryStats";
 import { Technologies } from "@/components/dashboard/Technologies";
+import { ButtonTop } from "@/components/shared/ButtonTop";
 
 const technologies = [
     "TypeScript",
@@ -125,27 +126,21 @@ export default function DashboardPage() {
             <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
                 <div className="absolute left-1/2 top-[-350px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
             </div>
-
             <DashboardHeader />
-
             <div className="mx-auto max-w-7xl px-6 py-10">
                 <RepositoryHeader
                     repositoryUrl={repositoryUrl}
                     owner={owner ?? "user"}
                     repositoryName={repositoryName ?? "github-analyzer"}
                 />
-
                 <RepositoryStats stats={repositoryStats} />
-
                 <section className="mt-8 grid gap-6 lg:grid-cols-3">
                     <ArchitectureAnalysis />
-
                     <Technologies technologies={technologies} />
                 </section>
-
                 <ProjectStructure />
-
                 <RepositoryChat />
+                <ButtonTop />
             </div>
         </main>
     );

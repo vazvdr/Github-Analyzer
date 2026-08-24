@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+
 export const metadata: Metadata = {
-  title: "GitHub Analyzer",
-  description:
-    "Analise repositórios do GitHub utilizando inteligência artificial.",
+  title: "GitHub Repository Analyzer",
+  description: "Análise inteligente de repositórios GitHub com IA",
 };
 
 export default function RootLayout({
@@ -13,8 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" data-scroll-behavior="smooth">
-      <body>{children}</body>
+    <html lang="pt-BR" suppressHydrationWarning data-scroll-behavior="smooth">
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
