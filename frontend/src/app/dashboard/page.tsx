@@ -1,5 +1,8 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+
 import { ArchitectureAnalysis } from "@/components/dashboard/ArchitectureAnalysis";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { ProjectStructure } from "@/components/dashboard/ProjectStructure";
@@ -9,137 +12,136 @@ import { RepositoryStats } from "@/components/dashboard/RepositoryStats";
 import { Technologies } from "@/components/dashboard/Technologies";
 import { ButtonTop } from "@/components/shared/ButtonTop";
 
-const technologies = [
-    "TypeScript",
-    "React",
-    "Next.js",
-    "Tailwind CSS",
-    "Node.js",
-];
-
-const repositoryStats = [
-    {
-        label: "Stars",
-        value: "12.8k",
-        description: "Estrelas no GitHub",
-        icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                className="h-5 w-5"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m12 3 2.78 5.63 6.22.9-4.5 4.39 1.06 6.2L12 17.2l-5.56 2.92 1.06-6.2L3 9.53l6.22-.9L12 3Z"
-                />
-            </svg>
-        ),
-    },
-    {
-        label: "Forks",
-        value: "2.4k",
-        description: "Forks do repositório",
-        icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                className="h-5 w-5"
-            >
-                <circle cx="6" cy="6" r="2.5" />
-                <circle cx="18" cy="18" r="2.5" />
-                <circle cx="18" cy="6" r="2.5" />
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.5 6H13a5 5 0 0 1 5 5v4.5M8.5 6v1.5A5 5 0 0 0 13.5 12H15"
-                />
-            </svg>
-        ),
-    },
-    {
-        label: "Arquivos",
-        value: "384",
-        description: "Arquivos analisados",
-        icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                className="h-5 w-5"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 3h8l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"
-                />
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14 3v5h5M8 13h8M8 17h6"
-                />
-            </svg>
-        ),
-    },
-    {
-        label: "Linguagem",
-        value: "TypeScript",
-        description: "Principal linguagem",
-        icon: (
-            <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                className="h-5 w-5"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 5h16M4 12h16M4 19h16"
-                />
-            </svg>
-        ),
-    },
-];
+import type { GitHubRepositoryResponse } from "@/lib/github/github.types";
 
 export default function DashboardPage() {
     const searchParams = useSearchParams();
 
+    const [repository, setRepository] =
+        useState<GitHubRepositoryResponse | null>(null);
+
+    const [loading, setLoading] = useState(true);
+
     const repositoryUrl =
-        searchParams.get("repository") ??
-        "https://github.com/user/github-analyzer";
+        searchParams.get("repository") ?? "";
 
-    const repositoryPath = repositoryUrl
-        .replace("https://github.com/", "")
-        .replace(/\/$/, "");
+    useEffect(() => {
+        const storedRepository =
+            sessionStorage.getItem("github-repository");
 
-    const [owner, repositoryName] = repositoryPath.split("/");
+        if (!storedRepository) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const parsedRepository: GitHubRepositoryResponse =
+                JSON.parse(storedRepository);
+            setRepository(parsedRepository);
+        } catch (error) {
+            console.error(
+                "Erro ao ler dados do repositório:",
+                error
+            );
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    if (loading) {
+        return (
+            <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
+
+                    Carregando informações do repositório...
+                </div>
+            </main>
+        );
+    }
+
+    if (!repository) {
+        return (
+            <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background px-6 text-center text-foreground">
+                <h1 className="text-xl font-semibold">
+                    Repositório não encontrado
+                </h1>
+
+                <p className="max-w-md text-sm text-muted-foreground">
+                    Não foi possível carregar as informações do
+                    repositório. Volte para a página inicial e
+                    tente realizar uma nova análise.
+                </p>
+            </main>
+        );
+    }
+
+    const repositoryStats = [
+        {
+            label: "Stars",
+            value: repository.stargazers_count.toLocaleString(
+                "pt-BR"
+            ),
+            description: "Estrelas no GitHub",
+        },
+        {
+            label: "Forks",
+            value: repository.forks_count.toLocaleString(
+                "pt-BR"
+            ),
+            description: "Forks do repositório",
+        },
+        {
+            label: "Linguagem",
+            value:
+                repository.language ??
+                "Não identificada",
+            description: "Principal linguagem",
+        },
+        {
+            label: "Branch",
+            value: repository.default_branch,
+            description: "Branch padrão",
+        },
+    ];
+
+    const technologies = repository.language
+        ? [repository.language]
+        : [];
 
     return (
         <main className="min-h-screen bg-background text-foreground">
             <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
                 <div className="absolute left-1/2 top-[-350px] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
             </div>
+
             <DashboardHeader />
+
             <div className="mx-auto max-w-7xl px-6 py-10">
                 <RepositoryHeader
                     repositoryUrl={repositoryUrl}
-                    owner={owner ?? "user"}
-                    repositoryName={repositoryName ?? "github-analyzer"}
+                    owner={repository.owner.login}
+                    repositoryName={repository.name}
+                    description={repository.description}
+                    isPrivate={repository.private}
                 />
-                <RepositoryStats stats={repositoryStats} />
+
+                <RepositoryStats
+                    stats={repositoryStats}
+                />
+
                 <section className="mt-8 grid gap-6 lg:grid-cols-3">
                     <ArchitectureAnalysis />
-                    <Technologies technologies={technologies} />
+
+                    <Technologies
+                        technologies={technologies}
+                    />
                 </section>
+
                 <ProjectStructure />
+
                 <RepositoryChat />
+
                 <ButtonTop />
             </div>
         </main>

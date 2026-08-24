@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { parseGitHubRepository } from "@/lib/github/github-url";
 
 export function Hero() {
     const router = useRouter();
@@ -10,41 +11,62 @@ export function Hero() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    function isValidGitHubUrl(url: string) {
+    async function handleAnalyze(
+        event: FormEvent<HTMLFormElement>
+    ) {
+        event.preventDefault();
+        setError("");
+        const url = repositoryUrl.trim();
+        if (!url) {
+            setError(
+                "Informe a URL de um repositório do GitHub."
+            );
+            return;
+        }
+        const repository = parseGitHubRepository(url);
+        if (!repository) {
+            setError(
+                "Informe uma URL válida no formato https://github.com/usuario/repositorio."
+            );
+            return;
+        }
+        setLoading(true);
         try {
-            const parsedUrl = new URL(url);
+            const response = await fetch(
+                "/api/github/repository",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        url,
+                    }),
+                }
+            );
 
-            return (
-                parsedUrl.hostname === "github.com" &&
-                parsedUrl.pathname.split("/").filter(Boolean).length >= 2
+            const data = await response.json();
+            if (!response.ok) {
+                setError(
+                    data.message ??
+                    "Não foi possível analisar o repositório."
+                );
+                return;
+            }
+            sessionStorage.setItem(
+                "github-repository",
+                JSON.stringify(data.repository)
+            );
+            router.push(
+                `/dashboard?repository=${encodeURIComponent(url)}`
             );
         } catch {
-            return false;
+            setError(
+                "Não foi possível conectar ao GitHub. Tente novamente."
+            );
+        } finally {
+            setLoading(false);
         }
-    }
-
-    async function handleAnalyze(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        setError("");
-
-        if (!repositoryUrl.trim()) {
-            setError("Informe a URL de um repositório do GitHub.");
-            return;
-        }
-
-        if (!isValidGitHubUrl(repositoryUrl)) {
-            setError("Informe uma URL válida de um repositório do GitHub.");
-            return;
-        }
-
-        setLoading(true);
-
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        router.push(
-            `/dashboard?repository=${encodeURIComponent(repositoryUrl)}`
-        );
     }
 
     return (
@@ -100,10 +122,15 @@ export function Hero() {
                                 }}
                                 placeholder="https://github.com/usuario/repositorio"
                                 disabled={loading}
+                                aria-invalid={!!error}
+                                aria-describedby={
+                                    error
+                                        ? "repository-error"
+                                        : undefined
+                                }
                                 className="h-12 w-full rounded-lg border border-border bg-background pl-12 pr-4 text-sm outline-none transition focus:border-foreground/40 focus:ring-2 focus:ring-foreground/10 disabled:cursor-not-allowed disabled:opacity-60"
                             />
                         </div>
-
                         <button
                             type="submit"
                             disabled={loading}
@@ -121,9 +148,11 @@ export function Hero() {
                         </button>
                     </div>
                 </div>
-
                 {error ? (
-                    <p className="mt-3 text-left text-sm text-red-500">
+                    <p
+                        id="repository-error"
+                        className="mt-3 text-left text-sm text-red-500"
+                    >
                         {error}
                     </p>
                 ) : (
@@ -132,7 +161,6 @@ export function Hero() {
                     </p>
                 )}
             </form>
-
             <div className="mt-14 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-muted-foreground">
                 <span>GitHub</span>
                 <span className="text-border">•</span>

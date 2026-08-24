@@ -2,12 +2,16 @@ interface RepositoryHeaderProps {
     repositoryUrl: string;
     owner: string;
     repositoryName: string;
+    description: string | null;
+    isPrivate: boolean;
 }
 
 export function RepositoryHeader({
     repositoryUrl,
     owner,
     repositoryName,
+    description,
+    isPrivate,
 }: RepositoryHeaderProps) {
     return (
         <section>
@@ -27,15 +31,15 @@ export function RepositoryHeader({
                         </h1>
 
                         <span className="rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium">
-                            Public
+                            {isPrivate ? "Private" : "Public"}
                         </span>
                     </div>
 
-                    <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-                        Plataforma para análise inteligente de repositórios
-                        do GitHub utilizando inteligência artificial, RAG e
-                        LLMs.
-                    </p>
+                    {description && (
+                        <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+                            {description}
+                        </p>
+                    )}
 
                     <a
                         href={repositoryUrl}
@@ -51,6 +55,7 @@ export function RepositoryHeader({
                             stroke="currentColor"
                             strokeWidth="1.8"
                             className="h-4 w-4"
+                            aria-hidden="true"
                         >
                             <path
                                 strokeLinecap="round"
