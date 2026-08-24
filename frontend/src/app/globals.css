@@ -1,57 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
+    --background: #ffffff;
+    --foreground: #09090b;
+    --card: #ffffff;
+    --card-foreground: #09090b;
+    --popover: #ffffff;
+    --popover-foreground: #09090b;
+    --primary: #18181b;
+    --primary-foreground: #fafafa;
+    --secondary: #f4f4f5;
+    --secondary-foreground: #18181b;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+    --accent: #f4f4f5;
+    --accent-foreground: #18181b;
+    --destructive: #ef4444;
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+    --ring: #a1a1aa;
 
-  --card: #ffffff;
-  --card-foreground: #09090b;
-
-  --popover: #ffffff;
-  --popover-foreground: #09090b;
-
-  --primary: #18181b;
-  --primary-foreground: #fafafa;
-
-  --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
-
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
-
-  --destructive: #ef4444;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #a1a1aa;
+    background: linear-gradient(
+        to right,
+        #ffffff 0%,
+        #e4e4e7 50%,
+        #ffffff 100%
+    );
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #fafafa;
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card: #09090b;
+    --card-foreground: #fafafa;
+    --popover: #09090b;
+    --popover-foreground: #fafafa;
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+    --secondary: #27272a;
+    --secondary-foreground: #fafafa;
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+    --accent: #27272a;
+    --accent-foreground: #fafafa;
+    --destructive: #7f1d1d;
+    --border: #27272a;
+    --input: #27272a;
+    --ring: #71717a;
 
-  --card: #09090b;
-  --card-foreground: #fafafa;
+    background: linear-gradient(
+        to right,
+        #27272a 0%,
+        #000000 50%,
+        #27272a 100%
+    );
+}
 
-  --popover: #09090b;
-  --popover-foreground: #fafafa;
-
-  --primary: #fafafa;
-  --primary-foreground: #18181b;
-
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
-
-  --destructive: #7f1d1d;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #71717a;
+html {
+    scroll-behavior: smooth;
 }

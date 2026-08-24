@@ -36,7 +36,7 @@ export function ButtonTop() {
             onClick={handleScrollToTop}
             aria-label="Voltar ao topo"
             title="Voltar ao topo"
-            className="fixed bottom-6 right-6 z-50 flex h-10 w-10 
+            className="fixed bottom-26 right-6 z-50 flex h-10 w-10 
             items-center justify-center rounded-md border border-border 
             bg-background text-foreground shadow-lg 
             transition-colors hover:bg-muted cursor-pointer"
