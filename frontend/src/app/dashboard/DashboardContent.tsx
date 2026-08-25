@@ -1,8 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-
 import { ArchitectureAnalysis } from "@/components/dashboard/ArchitectureAnalysis";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { ProjectStructure } from "@/components/dashboard/ProjectStructure";
@@ -12,42 +10,74 @@ import { RepositoryStats } from "@/components/dashboard/RepositoryStats";
 import { Technologies } from "@/components/dashboard/Technologies";
 import { ButtonTop } from "@/components/shared/ButtonTop";
 
-import type { GitHubRepositoryResponse } from "@/lib/github/github.types";
+import type { GitHubRepositoryResponse, GitHubTreeItem } from "@/lib/github/github.types";
 
 export default function DashboardContent() {
     const searchParams = useSearchParams();
 
-    const [repository, setRepository] =
-        useState<GitHubRepositoryResponse | null>(null);
-
+    const [repository, setRepository] = useState<GitHubRepositoryResponse | null>(null);
+    const [files, setFiles] = useState<GitHubTreeItem[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const repositoryUrl =
-        searchParams.get("repository") ?? "";
+    const repositoryUrl = searchParams.get("repository") ?? "";
 
     useEffect(() => {
-        const storedRepository =
-            sessionStorage.getItem("github-repository");
+        async function loadRepository() {
+            try {
+                const storedRepository =
+                    sessionStorage.getItem(
+                        "github-repository"
+                    );
+                if (storedRepository) {
+                    const parsedRepository =
+                        JSON.parse(
+                            storedRepository
+                        ) as GitHubRepositoryResponse;
 
-        if (!storedRepository) {
-            setLoading(false);
-            return;
+                    setRepository(parsedRepository);
+                }
+                if (!repositoryUrl) {
+                    return;
+                }
+                const response = await fetch(
+                    "/api/github/repository",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+                        },
+                        body: JSON.stringify({
+                            url: repositoryUrl,
+                        }),
+                    }
+                );
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(
+                        data.error ??
+                            "Não foi possível carregar o repositório."
+                    );
+                }
+                setRepository(data.repository);
+                const repositoryFiles =
+                    data.tree?.tree?.filter(
+                        (item: GitHubTreeItem) =>
+                            item.type === "blob"
+                    ) ?? [];
+
+                setFiles(repositoryFiles);
+            } catch (error) {
+                console.error(
+                    "Erro ao carregar dados do repositório:",
+                    error
+                );
+            } finally {
+                setLoading(false);
+            }
         }
 
-        try {
-            const parsedRepository: GitHubRepositoryResponse =
-                JSON.parse(storedRepository);
-
-            setRepository(parsedRepository);
-        } catch (error) {
-            console.error(
-                "Erro ao ler dados do repositório:",
-                error
-            );
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+        loadRepository();
+    }, [repositoryUrl]);
 
     if (loading) {
         return (
@@ -69,9 +99,9 @@ export default function DashboardContent() {
                 </h1>
 
                 <p className="max-w-md text-sm text-muted-foreground">
-                    Não foi possível carregar as informações do
-                    repositório. Volte para a página inicial e
-                    tente realizar uma nova análise.
+                    Não foi possível carregar as informações
+                    do repositório. Volte para a página inicial
+                    e tente realizar uma nova análise.
                 </p>
             </main>
         );
@@ -109,6 +139,11 @@ export default function DashboardContent() {
     const technologies = repository.language
         ? [repository.language]
         : [];
+    const repositoryPath = repositoryUrl
+        .replace("https://github.com/", "")
+        .replace(/\/$/, "");
+
+    const [owner] = repositoryPath.split("/");
 
     return (
         <main className="min-h-screen bg-background text-foreground">
@@ -121,7 +156,7 @@ export default function DashboardContent() {
             <div className="mx-auto max-w-7xl px-6 py-10">
                 <RepositoryHeader
                     repositoryUrl={repositoryUrl}
-                    owner={repository.owner.login}
+                    owner={owner ?? ""}
                     repositoryName={repository.name}
                     description={repository.description}
                     isPrivate={repository.private}
@@ -139,7 +174,9 @@ export default function DashboardContent() {
                     />
                 </section>
 
-                <ProjectStructure />
+                <ProjectStructure
+                    files={files}
+                />
 
                 <RepositoryChat />
 

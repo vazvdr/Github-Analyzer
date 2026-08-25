@@ -1,17 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getRepository, getRepositoryTree } from "@/lib/github/github-client";
 import { parseGitHubRepository } from "@/lib/github/github-url";
-import { getRepository } from "@/lib/github/github-client";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
-
-        const url = body?.url;
-
-        if (typeof url !== "string") {
+        const repositoryUrl = body.url;
+        if (typeof repositoryUrl !== "string") {
             return NextResponse.json(
                 {
-                    message: "A URL do repositório é obrigatória.",
+                    error: "URL do repositório não informada.",
                 },
                 {
                     status: 400,
@@ -19,42 +17,43 @@ export async function POST(request: Request) {
             );
         }
 
-        const repository = parseGitHubRepository(url);
+        const repository = parseGitHubRepository(repositoryUrl);
 
         if (!repository) {
             return NextResponse.json(
                 {
-                    message:
-                        "Informe uma URL válida de um repositório do GitHub.",
+                    error: "URL inválida do GitHub.",
                 },
                 {
                     status: 400,
                 }
             );
         }
-
-        const data = await getRepository(repository);
-
+        const repositoryData = await getRepository(repository);
+        const branch = repositoryData.default_branch;
+        const treeData = await getRepositoryTree(
+            repository,
+            branch
+        );
         return NextResponse.json({
-            repository: data,
+            repository: repositoryData,
+            branch,
+            tree: treeData,
         });
     } catch (error) {
-        console.error("Erro ao consultar GitHub:", error);
+        console.error(
+            "Erro ao consultar GitHub:",
+            error
+        );
 
-        if (error instanceof Error) {
-            return NextResponse.json(
-                {
-                    message: error.message,
-                },
-                {
-                    status: 500,
-                }
-            );
-        }
+        const message =
+            error instanceof Error
+                ? error.message
+                : "Erro interno ao consultar o GitHub.";
 
         return NextResponse.json(
             {
-                message: "Erro interno ao consultar o GitHub.",
+                error: message,
             },
             {
                 status: 500,

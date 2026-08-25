@@ -1,12 +1,10 @@
 "use client";
-
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { parseGitHubRepository } from "@/lib/github/github-url";
 
 export function Hero() {
     const router = useRouter();
-
     const [repositoryUrl, setRepositoryUrl] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -44,7 +42,6 @@ export function Hero() {
                     }),
                 }
             );
-
             const data = await response.json();
             if (!response.ok) {
                 setError(
@@ -68,7 +65,6 @@ export function Hero() {
             setLoading(false);
         }
     }
-
     return (
         <section className="mx-auto flex max-w-6xl flex-col items-center px-6 pb-24 pt-24 text-center sm:pt-32">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-3 py-1.5 text-xs font-medium text-muted-foreground">
@@ -112,7 +108,6 @@ export function Hero() {
                                     d="M12 8v8m-4-4h8M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"
                                 />
                             </svg>
-
                             <input
                                 type="url"
                                 value={repositoryUrl}

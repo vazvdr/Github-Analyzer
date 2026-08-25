@@ -19,10 +19,6 @@ export function RepositoryHeader({
                 <div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <span>Repositório analisado</span>
-
-                        <span>•</span>
-
-                        <span>Atualizado recentemente</span>
                     </div>
 
                     <div className="mt-3 flex flex-wrap items-center gap-3">
