@@ -55,15 +55,13 @@ export default function DashboardContent() {
                 if (!response.ok) {
                     throw new Error(
                         data.error ??
-                            "Não foi possível carregar o repositório."
+                        "Não foi possível carregar o repositório."
                     );
                 }
                 setRepository(data.repository);
                 const repositoryFiles =
-                    data.tree?.tree?.filter(
-                        (item: GitHubTreeItem) =>
-                            item.type === "blob"
-                    ) ?? [];
+                    data.files ?? [];
+                setFiles(repositoryFiles);
 
                 setFiles(repositoryFiles);
             } catch (error) {

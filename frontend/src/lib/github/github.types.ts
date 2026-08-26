@@ -14,6 +14,7 @@ export interface GitHubRepositoryResponse {
     forks_count: number;
     language: string | null;
     default_branch: string;
+    size: number;
 }
 
 export interface GitHubTreeItem {

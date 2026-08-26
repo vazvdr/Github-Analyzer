@@ -129,11 +129,14 @@ export function Hero() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="h-12 rounded-lg bg-foreground px-6 text-sm font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="h-12 rounded-lg bg-foreground px-6 text-sm font-semibold text-background 
+                            transition hover:opacity-90 cursor-pointer
+                            disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center gap-2">
-                                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-background/30 border-t-background" />
+                                    <span className="h-4 w-4 animate-spin rounded-full 
+                                    border-2 border-background/30 border-t-background" />
 
                                     Analisando...
                                 </span>

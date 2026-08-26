@@ -1,4 +1,5 @@
 import type { GitHubRepository, GitHubRepositoryResponse, GitHubTreeResponse } from "./github.types";
+
 const GITHUB_API_URL = "https://api.github.com";
 const GITHUB_HEADERS = {
     Accept: "application/vnd.github+json",
@@ -63,4 +64,29 @@ export async function getRepositoryTree(
         );
     }
     return response.json();
+}
+
+export async function downloadRepositoryZip(
+    repository: GitHubRepository,
+    branch: string
+): Promise<ArrayBuffer> {
+    const response = await fetch(
+        `https://github.com/${encodeURIComponent(
+            repository.owner
+        )}/${encodeURIComponent(
+            repository.repository
+        )}/archive/refs/heads/${encodeURIComponent(branch)}.zip`,
+        {
+            cache: "no-store",
+            redirect: "follow",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Erro ao baixar o ZIP do repositório. Status: ${response.status}`
+        );
+    }
+
+    return response.arrayBuffer();
 }
