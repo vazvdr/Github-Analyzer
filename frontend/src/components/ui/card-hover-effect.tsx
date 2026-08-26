@@ -10,13 +10,15 @@ type HoverEffectItem = {
     link?: string;
 };
 
+interface HoverEffectProps {
+    items: HoverEffectItem[];
+    className?: string;
+}
+
 export const HoverEffect = ({
     items,
     className,
-}: {
-    items: HoverEffectItem[];
-    className?: string;
-}) => {
+}: HoverEffectProps) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
     return (
@@ -27,14 +29,24 @@ export const HoverEffect = ({
             )}
         >
             {items.map((item, idx) => {
-                const content = (
-                    <>
+                const Wrapper = item.link ? "a" : "div";
+
+                return (
+                    <Wrapper
+                        key={item.title}
+                        {...(item.link ? { href: item.link } : {})}
+                        className="group relative block h-full w-full p-2"
+                        onMouseEnter={() => setHoveredIndex(idx)}
+                        onMouseLeave={() => setHoveredIndex(null)}
+                    >
                         <AnimatePresence>
                             {hoveredIndex === idx && (
                                 <motion.span
                                     className="absolute inset-0 block h-full w-full rounded-3xl bg-lime-500/10"
                                     layoutId="hoverBackground"
-                                    initial={{ opacity: 0 }}
+                                    initial={{
+                                        opacity: 0,
+                                    }}
                                     animate={{
                                         opacity: 1,
                                         transition: {
@@ -45,7 +57,7 @@ export const HoverEffect = ({
                                         opacity: 0,
                                         transition: {
                                             duration: 0.15,
-                                            delay: 0.2,
+                                            delay: 0.1,
                                         },
                                     }}
                                 />
@@ -54,36 +66,12 @@ export const HoverEffect = ({
 
                         <Card>
                             <CardTitle>{item.title}</CardTitle>
+
                             <CardDescription>
                                 {item.description}
                             </CardDescription>
                         </Card>
-                    </>
-                );
-
-                if (item.link) {
-                    return (
-                        <a
-                            href={item.link}
-                            key={item.title}
-                            className="group relative block h-full w-full p-2"
-                            onMouseEnter={() => setHoveredIndex(idx)}
-                            onMouseLeave={() => setHoveredIndex(null)}
-                        >
-                            {content}
-                        </a>
-                    );
-                }
-
-                return (
-                    <div
-                        key={item.title}
-                        className="group relative block h-full w-full p-2"
-                        onMouseEnter={() => setHoveredIndex(idx)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                        {content}
-                    </div>
+                    </Wrapper>
                 );
             })}
         </div>
@@ -100,12 +88,14 @@ export const Card = ({
     return (
         <div
             className={cn(
-                "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-transparent p-4 group-hover:border-lime-500 dark:border-white/[0.2]",
+                "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-transparent p-4 transition-colors group-hover:border-lime-500",
                 className
             )}
         >
             <div className="relative z-50">
-                <div className="p-4">{children}</div>
+                <div className="p-4">
+                    {children}
+                </div>
             </div>
         </div>
     );
@@ -121,7 +111,7 @@ export const CardTitle = ({
     return (
         <h4
             className={cn(
-                "mt-4 font-bold tracking-wide",
+                "mt-4 font-bold tracking-wide text-foreground",
                 className
             )}
         >
@@ -140,7 +130,7 @@ export const CardDescription = ({
     return (
         <p
             className={cn(
-                "mt-8 text-sm leading-relaxed tracking-wide",
+                "mt-8 text-sm leading-relaxed tracking-wide text-muted-foreground",
                 className
             )}
         >
