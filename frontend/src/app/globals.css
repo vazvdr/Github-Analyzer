@@ -20,6 +20,15 @@
     --input: #e4e4e7;
     --ring: #a1a1aa;
 
+    --repository-dialog-background: #ef4444;
+    --repository-dialog-foreground: #ffffff;
+    --repository-dialog-muted: #fee2e2;
+    --repository-dialog-border: #fca5a5;
+    --repository-dialog-card: rgba(255, 255, 255, 0.15);
+    --repository-dialog-card-border: rgba(255, 255, 255, 0.3);
+    --repository-dialog-button: #ffffff;
+    --repository-dialog-button-foreground: #dc2626;
+
     background: linear-gradient(
         to right,
         #ffffff 0%,
@@ -48,12 +57,57 @@
     --input: #27272a;
     --ring: #71717a;
 
+    --repository-dialog-background: rgba(246, 17, 17, 0.5);
+    --repository-dialog-foreground: #ffffff;
+    --repository-dialog-muted: #fecaca;
+    --repository-dialog-border: rgba(252, 165, 165, 0.6);
+    --repository-dialog-card: rgba(127, 29, 29, 0.35);
+    --repository-dialog-card-border: rgba(252, 165, 165, 0.35);
+    --repository-dialog-button: #ffffff;
+    --repository-dialog-button-foreground: #dc2626;
+
     background: linear-gradient(
         to right,
         #27272a 0%,
         #000000 50%,
         #27272a 100%
     );
+}
+
+.repository-dialog {
+    background-color: var(--repository-dialog-background);
+    color: var(--repository-dialog-foreground);
+    border-color: var(--repository-dialog-border);
+}
+
+.repository-dialog > div:first-child {
+    background-color: var(--repository-dialog-background);
+}
+
+.repository-dialog > div:last-child {
+    background-color: var(--repository-dialog-background);
+}
+
+.repository-dialog p {
+    color: var(--repository-dialog-muted);
+}
+
+.repository-dialog > div:last-child > div > div {
+    background-color: var(--repository-dialog-card);
+    border-color: var(--repository-dialog-card-border);
+}
+
+.repository-dialog button {
+    background-color: var(--repository-dialog-button);
+    color: var(--repository-dialog-button-foreground);
+}
+
+.repository-dialog button:hover {
+    opacity: 0.9;
+}
+
+.repository-dialog svg {
+    color: var(--repository-dialog-foreground);
 }
 
 html {

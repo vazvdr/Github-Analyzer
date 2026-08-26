@@ -193,10 +193,117 @@ function isAllowedFile(path: string): boolean {
     return isAllowedExtension(normalizedPath);
 }
 
+function getFilePriority(file: GitHubTreeItem): number {
+    const path = normalizePath(file.path);
+    const fileName = path.split("/").pop() ?? "";
+
+    if (fileName === "package.json") {
+        return 1000;
+    }
+
+    if (
+        fileName === "readme.md" ||
+        fileName === "dockerfile" ||
+        fileName === "docker-compose.yml" ||
+        fileName === "docker-compose.yaml"
+    ) {
+        return 950;
+    }
+
+    if (
+        fileName === "tsconfig.json" ||
+        fileName === "jsconfig.json" ||
+        fileName === "next.config.js" ||
+        fileName === "next.config.mjs" ||
+        fileName === "next.config.ts" ||
+        fileName === "vite.config.js" ||
+        fileName === "vite.config.ts"
+    ) {
+        return 900;
+    }
+
+    if (
+        path.includes("/controllers/") ||
+        path.includes("/routes/") ||
+        path.includes("/api/")
+    ) {
+        return 850;
+    }
+
+    if (
+        path.includes("/services/") ||
+        path.includes("/modules/")
+    ) {
+        return 800;
+    }
+
+    if (
+        path.includes("/repositories/") ||
+        path.includes("/database/") ||
+        path.includes("/db/")
+    ) {
+        return 780;
+    }
+
+    if (
+        path.includes("/entities/") ||
+        path.includes("/models/")
+    ) {
+        return 760;
+    }
+
+    if (
+        path.includes("/middleware/") ||
+        path.includes("/config/") ||
+        path.includes("/configs/")
+    ) {
+        return 740;
+    }
+
+    if (
+        path.includes("/contexts/") ||
+        path.includes("/providers/") ||
+        path.includes("/store/") ||
+        path.includes("/stores/")
+    ) {
+        return 720;
+    }
+
+    if (
+        path.includes("/hooks/") ||
+        path.includes("/utils/") ||
+        path.includes("/lib/")
+    ) {
+        return 700;
+    }
+
+    if (
+        path.includes("/components/") ||
+        path.includes("/pages/") ||
+        path.includes("/app/")
+    ) {
+        return 650;
+    }
+
+    if (path.startsWith("src/")) {
+        return 600;
+    }
+
+    if (isRootFile(path)) {
+        return 500;
+    }
+
+    if (isAllowedExtension(path)) {
+        return 300;
+    }
+
+    return 0;
+}
+
 export function filterRepositoryFiles(
     tree: GitHubTreeItem[]
 ): GitHubTreeItem[] {
-    return tree.filter((item) => {
+    const candidates = tree.filter((item) => {
         if (item.type !== "blob") {
             return false;
         }
@@ -216,7 +323,10 @@ export function filterRepositoryFiles(
             return false;
         }
 
-        if (ALLOWED_FILES.includes(fileName) && isRootFile(path)) {
+        if (
+            ALLOWED_FILES.includes(fileName) &&
+            isRootFile(path)
+        ) {
             return true;
         }
 
@@ -225,5 +335,19 @@ export function filterRepositoryFiles(
         }
 
         return isAllowedFile(path);
+    });
+
+    return candidates.sort((a, b) => {
+        const priorityDifference =
+            getFilePriority(b) - getFilePriority(a);
+
+        if (priorityDifference !== 0) {
+            return priorityDifference;
+        }
+
+        const sizeA = a.size ?? 0;
+        const sizeB = b.size ?? 0;
+
+        return sizeA - sizeB;
     });
 }

@@ -1,6 +1,8 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+
 import { ArchitectureAnalysis } from "@/components/dashboard/ArchitectureAnalysis";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { ProjectStructure } from "@/components/dashboard/ProjectStructure";
@@ -10,23 +12,35 @@ import { RepositoryStats } from "@/components/dashboard/RepositoryStats";
 import { Technologies } from "@/components/dashboard/Technologies";
 import { ButtonTop } from "@/components/shared/ButtonTop";
 
-import type { GitHubRepositoryResponse, GitHubTreeItem } from "@/lib/github/github.types";
+import type {
+    GitHubRepositoryResponse,
+    GitHubTreeItem,
+} from "@/lib/github/github.types";
 
 export default function DashboardContent() {
     const searchParams = useSearchParams();
 
-    const [repository, setRepository] = useState<GitHubRepositoryResponse | null>(null);
+    const [repository, setRepository] =
+        useState<GitHubRepositoryResponse | null>(null);
+
     const [files, setFiles] = useState<GitHubTreeItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const repositoryUrl = searchParams.get("repository") ?? "";
+    const [error, setError] = useState("");
+
+    const repositoryUrl =
+        searchParams.get("repository") ?? "";
 
     useEffect(() => {
         async function loadRepository() {
             try {
+                setLoading(true);
+                setError("");
+
                 const storedRepository =
                     sessionStorage.getItem(
                         "github-repository"
                     );
+
                 if (storedRepository) {
                     const parsedRepository =
                         JSON.parse(
@@ -35,9 +49,11 @@ export default function DashboardContent() {
 
                     setRepository(parsedRepository);
                 }
+
                 if (!repositoryUrl) {
                     return;
                 }
+
                 const response = await fetch(
                     "/api/github/repository",
                     {
@@ -51,23 +67,30 @@ export default function DashboardContent() {
                         }),
                     }
                 );
+
                 const data = await response.json();
+
                 if (!response.ok) {
                     throw new Error(
                         data.error ??
-                        "Não foi possível carregar o repositório."
+                        "Não foi possível analisar o repositório."
                     );
                 }
-                setRepository(data.repository);
-                const repositoryFiles =
-                    data.files ?? [];
-                setFiles(repositoryFiles);
 
-                setFiles(repositoryFiles);
+                setRepository(data.repository);
+                setFiles(data.files ?? []);
             } catch (error) {
                 console.error(
                     "Erro ao carregar dados do repositório:",
                     error
+                );
+
+                setRepository(null);
+
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : "Não foi possível analisar o repositório."
                 );
             } finally {
                 setLoading(false);
@@ -82,8 +105,48 @@ export default function DashboardContent() {
             <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
-
                     Carregando informações do repositório...
+                </div>
+            </main>
+        );
+    }
+
+    if (error) {
+        return (
+            <main className="flex min-h-screen items-center justify-center bg-background px-6 text-foreground">
+                <div className="w-full max-w-lg rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="h-7 w-7"
+                        >
+                            <path d="M12 9v4" />
+                            <path d="M12 17h.01" />
+                            <path d="M10.3 3.3 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.3a2 2 0 0 0-3.4 0Z" />
+                        </svg>
+                    </div>
+
+                    <h1 className="mt-5 text-xl font-semibold">
+                        Não foi possível analisar o repositório
+                    </h1>
+
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                        {error}
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={() => window.history.back()}
+                        className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    >
+                        Voltar
+                    </button>
                 </div>
             </main>
         );
@@ -137,6 +200,7 @@ export default function DashboardContent() {
     const technologies = repository.language
         ? [repository.language]
         : [];
+
     const repositoryPath = repositoryUrl
         .replace("https://github.com/", "")
         .replace(/\/$/, "");

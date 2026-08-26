@@ -32,3 +32,25 @@ export interface GitHubTreeResponse {
     tree: GitHubTreeItem[];
     truncated: boolean;
 }
+
+export interface GitHubAnalysisInfo {
+    totalFiles: number;
+    relevantFiles: number;
+    analyzedFiles: number;
+    skippedFiles: number;
+    totalSize: number;
+    maxFiles: number;
+    maxFileSize: number;
+    maxTotalContentSize: number;
+    truncated: boolean;
+    limited: boolean;
+    reason?: string;
+}
+
+export interface GitHubAnalysisStructure {
+    totalFiles: number;
+    relevantFiles: number;
+    analyzedFiles: number;
+    skippedFiles: number;
+    truncated: boolean;
+}
