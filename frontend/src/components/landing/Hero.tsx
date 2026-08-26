@@ -1,6 +1,8 @@
 "use client";
+
 import { useHero } from "@/hooks/useHero";
 import { RepositoryTooLargeDialog } from "@/components/landing/RepositoryTooLargeDialog";
+import { ButtonClearInput } from "@/components/landing/ButtonClearInput";
 
 export function Hero() {
     const {
@@ -38,7 +40,7 @@ export function Hero() {
                     onSubmit={handleAnalyze}
                     className="mt-10 w-full max-w-2xl"
                 >
-                    <div className="rounded-xl border border-border bg-card p-2 shadow-sm">
+                    <div className="rounded-xl border border-lime-500 bg-card p-2 shadow-sm">
                         <div className="flex flex-col gap-2 sm:flex-row">
                             <div className="relative flex-1">
                                 <svg
@@ -46,7 +48,7 @@ export function Hero() {
                                     fill="none"
                                     stroke="currentColor"
                                     strokeWidth="1.8"
-                                    className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
+                                    className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2"
                                     aria-hidden="true"
                                 >
                                     <path
@@ -69,13 +71,20 @@ export function Hero() {
                                             ? "repository-error"
                                             : undefined
                                     }
-                                    className="h-12 w-full rounded-lg border border-border bg-background pl-12 pr-4 text-sm outline-none transition focus:border-foreground/40 focus:ring-2 focus:ring-foreground/10 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="h-12 w-full rounded-lg border border-lime-500  pl-12 pr-12 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+                                />
+                                <ButtonClearInput
+                                    repositoryUrl={repositoryUrl}
+                                    setRepositoryUrl={setRepositoryUrl}
+                                    loading={loading}
                                 />
                             </div>
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="h-12 cursor-pointer rounded-lg bg-foreground px-6 text-sm font-semibold text-background transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="h-12 cursor-pointer rounded-lg bg-foreground px-6 text-sm 
+                                font-semibold text-background transition border border-lime-500
+                                hover:scale-105 hover:bg-lime-500 hover:text-black disabled:cursor-not-allowed disabled:opacity-60"
                             >
                                 {loading ? (
                                     <span className="flex items-center justify-center gap-2">

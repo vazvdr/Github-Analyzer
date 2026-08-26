@@ -1,3 +1,5 @@
+"use client";
+
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 const steps = [
@@ -20,20 +22,15 @@ const steps = [
 
 export function HowItWorks() {
     return (
-        <section
-            id="como-funciona"
-            className="border-y border-border/60 bg-muted/20"
-        >
+        <section id="como-funciona">
             <div className="mx-auto max-w-6xl px-6 py-20">
                 <div className="max-w-2xl">
                     <span className="text-sm font-semibold text-muted-foreground">
                         COMO FUNCIONA
                     </span>
-
                     <h2 className="mt-3 text-3xl font-bold tracking-tight">
                         Da URL para uma análise completa.
                     </h2>
-
                     <p className="mt-4 text-muted-foreground">
                         O sistema será responsável por processar o repositório
                         e utilizar IA para transformar o código em informações

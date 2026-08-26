@@ -38,9 +38,9 @@ export function ThemeToggle() {
             hover:bg-muted cursor-pointer"
         >
             {isDark ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-5 w-5 text-yellow-400" />
             ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-5 w-5 text-blue-600" />
             )}
         </button>
     );

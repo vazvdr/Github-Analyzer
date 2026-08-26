@@ -9,7 +9,7 @@ const features = [
     {
         title: "Tecnologias",
         description:
-            "Descubra frameworks, bibliotecas e ferramentas utilizadas.",
+            "Descubra a linguagem de programação utilizada.",
     },
     {
         title: "Código",
@@ -27,9 +27,9 @@ export function Features() {
     return (
         <section
             id="recursos"
-            className="mx-auto max-w-6xl px-6 py-20"
+            className="mx-auto max-w-6xl px-6 py-20 border-y border-[var(--section-border)]"
         >
-            <div className="text-center">
+            <div className="text-center ">
                 <span className="text-sm font-semibold text-muted-foreground">
                     RECURSOS
                 </span>
