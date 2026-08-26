@@ -1,25 +1,24 @@
-export function HowItWorks() {
-    const steps = [
-        {
-            number: "01",
-            title: "Informe o repositório",
-            description:
-                "Cole a URL pública de qualquer repositório do GitHub que você deseja analisar.",
-        },
-        {
-            number: "02",
-            title: "A IA analisa o código",
-            description:
-                "O sistema processará os arquivos, estrutura, dependências e conteúdo relevante do projeto.",
-        },
-        {
-            number: "03",
-            title: "Explore os resultados",
-            description:
-                "Você poderá conversar com a IA sobre o repositório e obter respostas baseadas no próprio código.",
-        },
-    ];
+import { HoverEffect } from "@/components/ui/card-hover-effect";
 
+const steps = [
+    {
+        title: "01 — Informe o repositório",
+        description:
+            "Cole a URL pública de qualquer repositório do GitHub que você deseja analisar.",
+    },
+    {
+        title: "02 — A IA analisa o código",
+        description:
+            "O sistema processará os arquivos, estrutura, dependências e conteúdo relevante do projeto.",
+    },
+    {
+        title: "03 — Explore os resultados",
+        description:
+            "Você poderá conversar com a IA sobre o repositório e obter respostas baseadas no próprio código.",
+    },
+];
+
+export function HowItWorks() {
     return (
         <section
             id="como-funciona"
@@ -42,26 +41,10 @@ export function HowItWorks() {
                     </p>
                 </div>
 
-                <div className="mt-12 grid gap-5 md:grid-cols-3">
-                    {steps.map((step) => (
-                        <div
-                            key={step.number}
-                            className="rounded-xl border border-border bg-card p-6"
-                        >
-                            <span className="text-sm font-semibold text-muted-foreground">
-                                {step.number}
-                            </span>
-
-                            <h3 className="mt-5 text-lg font-semibold">
-                                {step.title}
-                            </h3>
-
-                            <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                                {step.description}
-                            </p>
-                        </div>
-                    ))}
-                </div>
+                <HoverEffect
+                    items={steps}
+                    className="mt-6 grid-cols-1 md:grid-cols-3"
+                />
             </div>
         </section>
     );

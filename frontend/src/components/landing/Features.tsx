@@ -1,3 +1,5 @@
+import { HoverEffect } from "@/components/ui/card-hover-effect";
+
 const features = [
     {
         title: "Arquitetura",
@@ -43,22 +45,10 @@ export function Features() {
                 </p>
             </div>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {features.map((feature) => (
-                    <div
-                        key={feature.title}
-                        className="rounded-xl border border-border bg-card p-6 transition hover:-translate-y-1 hover:shadow-md"
-                    >
-                        <h3 className="font-semibold">
-                            {feature.title}
-                        </h3>
-
-                        <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                            {feature.description}
-                        </p>
-                    </div>
-                ))}
-            </div>
+            <HoverEffect
+                items={features}
+                className="mt-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+            />
         </section>
     );
 }
