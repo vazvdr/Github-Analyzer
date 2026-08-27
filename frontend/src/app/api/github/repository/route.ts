@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import JSZip from "jszip";
 
 import {
@@ -13,6 +12,7 @@ import { parseGitHubRepository } from "@/lib/github/github-url";
 import { filterRepositoryFiles } from "@/lib/github/github-file-filter";
 import { processRepositoryFiles } from "@/lib/github/github-file-processor";
 import { GITHUB_ANALYSIS_LIMITS } from "@/lib/github/github-analysis-limits";
+import { validateZipSecurity } from "@/lib/github/github-zip-security";
 
 export async function POST(request: NextRequest) {
     try {
@@ -30,7 +30,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const repository = parseGitHubRepository(repositoryUrl);
+        const repository = parseGitHubRepository(
+            repositoryUrl
+        );
 
         if (!repository) {
             return NextResponse.json(
@@ -43,12 +45,21 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const repositoryData = await getRepository(repository);
+        const repositoryData =
+            await getRepository(repository);
 
-        const languages = await getRepositoryLanguages(
-            repository
-        );
+        const languages =
+            await getRepositoryLanguages(
+                repository
+            );
 
+        /**
+         * O GitHub informa o tamanho do repositório
+         * em KB.
+         *
+         * Fazemos essa validação ANTES de baixar
+         * qualquer ZIP.
+         */
         const repositorySizeInBytes =
             repositoryData.size * 1024;
 
@@ -70,22 +81,33 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const branch = repositoryData.default_branch;
+        const branch =
+            repositoryData.default_branch;
 
-        const treeData = await getRepositoryTree(
-            repository,
-            branch
-        );
+        const treeData =
+            await getRepositoryTree(
+                repository,
+                branch
+            );
 
-        const relevantFiles = filterRepositoryFiles(
-            treeData.tree
-        );
+        const relevantFiles =
+            filterRepositoryFiles(
+                treeData.tree
+            );
 
-        const zipBuffer = await downloadRepositoryZip(
-            repository,
-            branch
-        );
+        const zipBuffer =
+            await downloadRepositoryZip(
+                repository,
+                branch
+            );
 
+        /**
+         * Segunda proteção.
+         *
+         * O tamanho informado pelo GitHub pode não
+         * representar exatamente o tamanho final
+         * do arquivo ZIP baixado.
+         */
         if (
             zipBuffer.byteLength >
             GITHUB_ANALYSIS_LIMITS.maxZipSize
@@ -93,8 +115,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
                 {
                     error:
-                        "Este repositório é muito grande para ser analisado. Estamos selecionando apenas os arquivos mais relevantes para a análise.",
-                    code: "REPOSITORY_TOO_LARGE",
+                        "O ZIP do repositório excede o tamanho máximo permitido.",
+                    code: "ZIP_TOO_LARGE",
                     repository: repositoryData,
                     languages,
                 },
@@ -104,18 +126,29 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const zip = await JSZip.loadAsync(zipBuffer);
+        const zip =
+            await JSZip.loadAsync(zipBuffer);
 
-        const processed = await processRepositoryFiles(
-            zip,
-            relevantFiles
-        );
+        /**
+         * Proteção contra ZIP bombs,
+         * path traversal e excesso de entradas.
+         */
+        validateZipSecurity(zip);
+
+        const processed =
+            await processRepositoryFiles(
+                zip,
+                relevantFiles
+            );
 
         const structure = {
             totalFiles: treeData.tree.length,
-            relevantFiles: relevantFiles.length,
-            analyzedFiles: processed.files.length,
-            skippedFiles: processed.skippedFiles.length,
+            relevantFiles:
+                relevantFiles.length,
+            analyzedFiles:
+                processed.files.length,
+            skippedFiles:
+                processed.skippedFiles.length,
             truncated:
                 treeData.truncated ||
                 processed.truncated,
@@ -143,10 +176,14 @@ export async function POST(request: NextRequest) {
             structure,
             analysis,
             files: processed.files,
-            skippedFiles: processed.skippedFiles,
+            skippedFiles:
+                processed.skippedFiles,
         });
     } catch (error) {
-        console.error("Erro ao consultar GitHub:", error);
+        console.error(
+            "Erro ao consultar GitHub:",
+            error
+        );
 
         const message =
             error instanceof Error
