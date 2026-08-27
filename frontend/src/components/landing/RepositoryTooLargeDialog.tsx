@@ -66,7 +66,7 @@ export function RepositoryTooLargeDialog({
                             </p>
 
                             <p className="mt-1 text-lg font-semibold">
-                                10 MB
+                                40 MB
                             </p>
                         </div>
                     </div>

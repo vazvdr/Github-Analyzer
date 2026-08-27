@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import JSZip from "jszip";
 
 import {
@@ -16,6 +17,7 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
         const repositoryUrl = body.url;
+
         if (typeof repositoryUrl !== "string") {
             return NextResponse.json(
                 {
@@ -26,7 +28,9 @@ export async function POST(request: NextRequest) {
                 }
             );
         }
+
         const repository = parseGitHubRepository(repositoryUrl);
+
         if (!repository) {
             return NextResponse.json(
                 {
@@ -37,8 +41,10 @@ export async function POST(request: NextRequest) {
                 }
             );
         }
+
         const repositoryData = await getRepository(repository);
         const repositorySizeInBytes = repositoryData.size * 1024;
+
         if (
             repositorySizeInBytes >
             GITHUB_ANALYSIS_LIMITS.maxZipSize
@@ -55,23 +61,28 @@ export async function POST(request: NextRequest) {
                 }
             );
         }
+
         const branch = repositoryData.default_branch;
+
         const treeData = await getRepositoryTree(
             repository,
             branch
         );
+
         const relevantFiles = filterRepositoryFiles(
             treeData.tree
         );
+
         const zipBuffer = await downloadRepositoryZip(
             repository,
             branch
         );
+
         if (
             zipBuffer.byteLength >
             GITHUB_ANALYSIS_LIMITS.maxZipSize
         ) {
-             return NextResponse.json(
+            return NextResponse.json(
                 {
                     error:
                         "Este repositório é muito grande para ser analisado. Estamos selecionando apenas os arquivos mais relevantes para a análise.",
@@ -83,13 +94,14 @@ export async function POST(request: NextRequest) {
                 }
             );
         }
-        const zip = await JSZip.loadAsync(
-            zipBuffer
-        );
+
+        const zip = await JSZip.loadAsync(zipBuffer);
+
         const processed = await processRepositoryFiles(
             zip,
             relevantFiles
         );
+
         const structure = {
             totalFiles: treeData.tree.length,
             relevantFiles: relevantFiles.length,
@@ -99,20 +111,38 @@ export async function POST(request: NextRequest) {
                 treeData.truncated ||
                 processed.truncated,
         };
+
+        const analysis = {
+            limited:
+                treeData.truncated ||
+                processed.truncated ||
+                processed.skippedFiles.length > 0,
+            reason:
+                treeData.truncated
+                    ? "A árvore de arquivos do repositório foi limitada pelo GitHub."
+                    : processed.truncated
+                        ? "A análise foi limitada devido aos limites de processamento."
+                        : processed.skippedFiles.length > 0
+                            ? "Alguns arquivos foram ignorados por não serem relevantes para a análise."
+                            : null,
+        };
+
         return NextResponse.json({
             repository: repositoryData,
             branch,
             structure,
+            analysis,
             files: processed.files,
+            skippedFiles: processed.skippedFiles,
         });
     } catch (error) {
-        console.error(
-            "Erro ao consultar GitHub:",
-            error
-        );
-        const message = error instanceof Error
+        console.error("Erro ao consultar GitHub:", error);
+
+        const message =
+            error instanceof Error
                 ? error.message
                 : "Erro interno ao consultar o GitHub.";
+
         return NextResponse.json(
             {
                 error: message,
