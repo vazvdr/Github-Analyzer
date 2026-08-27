@@ -23,7 +23,7 @@
             #7a7a92 50%,
             #49494b 100%);
 
-    --hero-paragraph-color: #28282a;
+    --hero-paragraph-color: #2d2d2e;
     --hero-input-border: #0437a5;
     --hero-input-placeholder: #000000;
 
@@ -54,6 +54,14 @@
             #e2e1e1 0%,
             #e4e4e7 50%,
             #e2e1e1 100%);
+    --dashboard-background: #f4f5f7;
+    --dashboard-surface: #ffffff;
+    --dashboard-border: #d1d5db;
+    --dashboard-accent: #2563eb;
+    --dashboard-accent-background: rgba(37, 99, 235, 0.08);
+    --dashboard-accent-border: rgba(37, 99, 235, 0.3);
+    --dashboard-code-background: #e5e7eb;
+    --dashboard-code-foreground: #374151;
 }
 
 .dark {
@@ -113,6 +121,15 @@
             #27272a 0%,
             #000000 50%,
             #27272a 100%);
+
+    --dashboard-background: #050505;
+    --dashboard-surface: #0a0a0a;
+    --dashboard-border: rgba(156, 254, 9, 0.18);
+    --dashboard-accent: #9cfe09;
+    --dashboard-accent-background: rgba(156, 254, 9, 0.08);
+    --dashboard-accent-border: rgba(156, 254, 9, 0.3);
+    --dashboard-code-background: #080808;
+    --dashboard-code-foreground: #a3a3a3;
 }
 
 .hero-title-gradient {
@@ -222,6 +239,31 @@
 
 .repository-dialog svg {
     color: var(--repository-dialog-foreground);
+}
+
+.dashboard-surface {
+    background-color: var(--dashboard-surface);
+}
+
+.dashboard-border {
+    border-color: var(--dashboard-border);
+}
+
+.dashboard-accent {
+    color: var(--dashboard-accent);
+}
+
+.dashboard-accent-background {
+    background-color: var(--dashboard-accent-background);
+}
+
+.dashboard-accent-border {
+    border-color: var(--dashboard-accent-border);
+}
+
+.dashboard-code {
+    background-color: var(--dashboard-code-background);
+    color: var(--dashboard-code-foreground);
 }
 
 html {

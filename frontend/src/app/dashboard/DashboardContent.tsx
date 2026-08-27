@@ -56,12 +56,12 @@ export default function DashboardContent() {
                         technologies={technologies}
                     />
                 </section>
+                <RepositoryChat />
                 <ProjectStructure
                     files={files}
                     structure={structure}
                     analysis={analysis}
                 />
-                <RepositoryChat />
                 <ButtonTop />
             </div>
         </main>

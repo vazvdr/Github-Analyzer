@@ -7,8 +7,8 @@ const positivePoints = [
 
 export function ArchitectureAnalysis() {
     return (
-        <div className="rounded-xl border border-border bg-card lg:col-span-2">
-            <div className="border-b border-border px-6 py-5">
+        <div className="dashboard-surface dashboard-border rounded-xl border lg:col-span-2">
+            <div className="dashboard-border border-b px-6 py-5">
                 <div className="flex items-center justify-between">
                     <div>
                         <h2 className="font-semibold">
@@ -20,7 +20,7 @@ export function ArchitectureAnalysis() {
                         </p>
                     </div>
 
-                    <div className="rounded-lg bg-muted px-3 py-1.5 text-xs font-medium">
+                    <div className="dashboard-accent-background dashboard-accent-border dashboard-accent rounded-lg border px-3 py-1.5 text-xs font-medium">
                         IA
                     </div>
                 </div>
@@ -28,7 +28,7 @@ export function ArchitectureAnalysis() {
 
             <div className="space-y-6 p-6">
                 <div>
-                    <h3 className="text-sm font-semibold">
+                    <h3 className="dashboard-accent text-sm font-semibold">
                         Visão geral
                     </h3>
 
@@ -41,7 +41,7 @@ export function ArchitectureAnalysis() {
                 </div>
 
                 <div>
-                    <h3 className="text-sm font-semibold">
+                    <h3 className="dashboard-accent text-sm font-semibold">
                         Organização
                     </h3>
 
@@ -53,7 +53,7 @@ export function ArchitectureAnalysis() {
                 </div>
 
                 <div>
-                    <h3 className="text-sm font-semibold">
+                    <h3 className="dashboard-accent text-sm font-semibold">
                         Pontos positivos
                     </h3>
 
@@ -63,7 +63,7 @@ export function ArchitectureAnalysis() {
                                 key={item}
                                 className="flex items-start gap-3 text-sm text-muted-foreground"
                             >
-                                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground" />
+                                <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
 
                                 <span>{item}</span>
                             </li>
