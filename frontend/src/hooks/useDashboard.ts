@@ -1,18 +1,24 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { GitHubRepositoryResponse, GitHubTreeItem } from "@/lib/github/github.types";
 import type { ProjectStructureProps } from "@/types/dashboard/project-structure.types";
+
 export function useDashboard() {
     const searchParams = useSearchParams();
     const [repository, setRepository] =
         useState<GitHubRepositoryResponse | null>(null);
     const [files, setFiles] = useState<GitHubTreeItem[]>([]);
     const [structure, setStructure] =
-        useState<ProjectStructureProps["structure"]>(undefined);
+        useState<ProjectStructureProps["structure"]>(
+            undefined
+        );
     const [analysis, setAnalysis] =
-        useState<ProjectStructureProps["analysis"]>(undefined);
+        useState<ProjectStructureProps["analysis"]>(
+            undefined
+        );
+    const [technologies, setTechnologies] =
+        useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const repositoryUrl =
         searchParams.get("repository") ?? "";
@@ -22,7 +28,9 @@ export function useDashboard() {
             try {
                 setLoading(true);
                 const storedRepository =
-                    sessionStorage.getItem("github-repository");
+                    sessionStorage.getItem(
+                        "github-repository"
+                    );
                 if (storedRepository) {
                     const parsedRepository =
                         JSON.parse(
@@ -54,6 +62,7 @@ export function useDashboard() {
                 setFiles(data.files ?? []);
                 setStructure(data.structure);
                 setAnalysis(data.analysis);
+                setTechnologies(data.languages ?? []);
             } finally {
                 setLoading(false);
             }
@@ -91,9 +100,6 @@ export function useDashboard() {
                   description: "Branch padrão",
               },
           ]
-        : [];
-    const technologies = repository?.language
-        ? [repository.language]
         : [];
     const repositoryPath = repositoryUrl
         .replace("https://github.com/", "")

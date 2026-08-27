@@ -8,6 +8,7 @@ import { RepositoryStats } from "@/components/dashboard/RepositoryStats";
 import { Technologies } from "@/components/dashboard/Technologies";
 import { ButtonTop } from "@/components/shared/ButtonTop";
 import { useDashboard } from "@/hooks/useDashboard";
+import { Footer } from "@/components/landing/Footer";
 
 export default function DashboardContent() {
     const {
@@ -62,6 +63,7 @@ export default function DashboardContent() {
                     structure={structure}
                     analysis={analysis}
                 />
+                <Footer />
                 <ButtonTop />
             </div>
         </main>

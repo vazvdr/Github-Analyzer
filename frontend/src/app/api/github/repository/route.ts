@@ -5,6 +5,7 @@ import JSZip from "jszip";
 import {
     downloadRepositoryZip,
     getRepository,
+    getRepositoryLanguages,
     getRepositoryTree,
 } from "@/lib/github/github-client";
 
@@ -43,7 +44,13 @@ export async function POST(request: NextRequest) {
         }
 
         const repositoryData = await getRepository(repository);
-        const repositorySizeInBytes = repositoryData.size * 1024;
+
+        const languages = await getRepositoryLanguages(
+            repository
+        );
+
+        const repositorySizeInBytes =
+            repositoryData.size * 1024;
 
         if (
             repositorySizeInBytes >
@@ -55,6 +62,7 @@ export async function POST(request: NextRequest) {
                         "Este repositório é muito grande para ser analisado. Estamos selecionando apenas os arquivos mais relevantes para a análise.",
                     code: "REPOSITORY_TOO_LARGE",
                     repository: repositoryData,
+                    languages,
                 },
                 {
                     status: 413,
@@ -88,6 +96,7 @@ export async function POST(request: NextRequest) {
                         "Este repositório é muito grande para ser analisado. Estamos selecionando apenas os arquivos mais relevantes para a análise.",
                     code: "REPOSITORY_TOO_LARGE",
                     repository: repositoryData,
+                    languages,
                 },
                 {
                     status: 413,
@@ -129,6 +138,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
             repository: repositoryData,
+            languages,
             branch,
             structure,
             analysis,
