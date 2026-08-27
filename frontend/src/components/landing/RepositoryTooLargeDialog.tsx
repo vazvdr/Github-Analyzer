@@ -73,7 +73,7 @@ export function RepositoryTooLargeDialog({
 
                     <p className="mt-5 text-sm leading-6">
                         Este repositório é muito grande para ser analisado. No
-                        momento, o tamanho máximo permitido é de 10 MB.
+                        momento, o tamanho máximo permitido é de 40 MB.
                     </p>
 
                     <button

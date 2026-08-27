@@ -14,7 +14,6 @@ export function ProjectStructure({
                 <h2 className="font-semibold">
                     Estrutura do projeto
                 </h2>
-
                 <p className="mt-1 text-sm text-muted-foreground">
                     Estrutura de arquivos selecionados durante a análise.
                 </p>
@@ -25,7 +24,6 @@ export function ProjectStructure({
                         <p className="text-xs text-muted-foreground">
                             Arquivos
                         </p>
-
                         <p className="mt-1 font-semibold">
                             {structure.totalFiles}
                         </p>
@@ -43,7 +41,6 @@ export function ProjectStructure({
                         <p className="text-xs text-muted-foreground">
                             Analisados
                         </p>
-
                         <p className="mt-1 font-semibold">
                             {structure.analyzedFiles}
                         </p>
@@ -52,7 +49,6 @@ export function ProjectStructure({
                         <p className="text-xs text-muted-foreground">
                             Ignorados
                         </p>
-
                         <p className="mt-1 font-semibold">
                             {structure.skippedFiles}
                         </p>

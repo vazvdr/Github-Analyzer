@@ -10,7 +10,7 @@
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
+    --muted-foreground: oklch(38.762% 0.00134 15.399);
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
     --destructive: oklch(0.577 0.245 27.325);
@@ -18,7 +18,28 @@
     --input: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
 
-    --section-border: oklch(0.841 0.238 128.85);
+    --hero-title-gradient: linear-gradient(to right,
+            #959292 0%,
+            #7a7a92 50%,
+            #49494b 100%);
+
+    --hero-paragraph-color: #28282a;
+    --hero-input-border: #0437a5;
+    --hero-input-placeholder: #000000;
+
+    --hero-button-background: #000000;
+    --hero-button-foreground: #ffffff;
+    --hero-button-hover-background: #2563eb;
+    --hero-button-hover-foreground: #ffffff;
+
+    --section-border: oklch(42.063% 0.28785 265.367);
+
+    --card-hover-effect: #0844a3;
+
+    --github-gradient: linear-gradient(to right,
+            #7c7c7d 0%,
+            #18181b 50%,
+            #52525b 100%);
 
     --repository-dialog-background: #ee0b0b;
     --repository-dialog-foreground: #ffffff;
@@ -29,12 +50,10 @@
     --repository-dialog-button: #ffffff;
     --repository-dialog-button-foreground: #dc2626;
 
-    background: linear-gradient(
-        to right,
-        #e2e1e1 0%,
-        #e4e4e7 50%,
-        #e2e1e1 100%
-    );
+    background: linear-gradient(to right,
+            #e2e1e1 0%,
+            #e4e4e7 50%,
+            #e2e1e1 100%);
 }
 
 .dark {
@@ -57,7 +76,29 @@
     --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.556 0 0);
 
+    --hero-title-gradient: linear-gradient(to right,
+            #ffffff 0%,
+            #a2e506 50%,
+            #a1a1aa 100%);
+
+
+    --hero-paragraph-color: #b5b5bb;
+    --hero-input-border: #9cfe09;
+    --hero-input-placeholder: #ffffff;
+
+    --hero-button-background: #ffffff;
+    --hero-button-foreground: #000000;
+    --hero-button-hover-background: #9cfe09;
+    --hero-button-hover-foreground: #000000;
+
     --section-border: oklch(0.841 0.238 128.85);
+
+    --card-hover-effect: #9cfe09;
+
+    --github-gradient: linear-gradient(to right,
+            #a5a5a5 0%,
+            #4a4a4a 50%,
+            #d6d6d6 100%);
 
     --repository-dialog-background: rgba(246, 17, 17, 0.5);
     --repository-dialog-foreground: #ffffff;
@@ -68,12 +109,83 @@
     --repository-dialog-button: #ffffff;
     --repository-dialog-button-foreground: #dc2626;
 
-    background: linear-gradient(
-        to right,
-        #27272a 0%,
-        #000000 50%,
-        #27272a 100%
-    );
+    background: linear-gradient(to right,
+            #27272a 0%,
+            #000000 50%,
+            #27272a 100%);
+}
+
+.hero-title-gradient {
+    background: var(--hero-title-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.github-gradient {
+    background: var(--github-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.github-animated {
+    display: inline-block;
+    animation: github-pulse 2.5s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes github-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+        filter: brightness(1.2);
+    }
+}
+
+.hero-paragraph {
+    color: var(--hero-paragraph-color);
+}
+
+.hero-input {
+    border: 1px solid var(--hero-input-border);
+    background-color: transparent;
+    color: var(--foreground);
+}
+
+.hero-input::placeholder {
+    color: var(--hero-input-placeholder);
+}
+
+.hero-button {
+    background-color: var(--hero-button-background);
+    color: var(--hero-button-foreground);
+    border: 1px solid var(--hero-input-border);
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.hero-button:hover {
+    background-color: var(--hero-button-hover-background);
+    color: var(--hero-button-hover-foreground);
+}
+
+.card-hover-background {
+    background-color: color-mix(in srgb,
+            var(--card-hover-effect) 70%,
+            transparent);
+}
+
+.card-hover-effect:hover {
+    border-color: var(--card-hover-effect);
 }
 
 .repository-dialog {
@@ -82,11 +194,11 @@
     border-color: var(--repository-dialog-border);
 }
 
-.repository-dialog > div:first-child {
+.repository-dialog>div:first-child {
     background-color: var(--repository-dialog-background);
 }
 
-.repository-dialog > div:last-child {
+.repository-dialog>div:last-child {
     background-color: var(--repository-dialog-background);
 }
 
@@ -94,7 +206,7 @@
     color: var(--repository-dialog-muted);
 }
 
-.repository-dialog > div:last-child > div > div {
+.repository-dialog>div:last-child>div>div {
     background-color: var(--repository-dialog-card);
     border-color: var(--repository-dialog-card-border);
 }
