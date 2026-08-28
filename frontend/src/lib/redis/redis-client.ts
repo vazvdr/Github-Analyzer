@@ -1,6 +1,6 @@
 import { createClient } from "redis";
 
-const redisUrl = process.env.REDIS_URL;
+const redisUrl = process.env.REDIS_PUBLIC_URL;
 if (!redisUrl) {
     throw new Error("REDIS_URL não configurada.");
 }
