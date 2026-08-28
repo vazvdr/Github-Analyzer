@@ -1,3 +1,5 @@
+import type { ProjectStructureProps } from "@/types/dashboard/project-structure.types";
+
 export interface GitHubRepository {
     owner: string;
     repository: string;
@@ -53,4 +55,14 @@ export interface GitHubAnalysisStructure {
     analyzedFiles: number;
     skippedFiles: number;
     truncated: boolean;
+}
+
+export interface GitHubAnalysisData {
+    repository: GitHubRepositoryResponse;
+    languages: string[];
+    branch: string; sha: string;
+    structure: ProjectStructureProps["structure"];
+    analysis: ProjectStructureProps["analysis"];
+    files: GitHubTreeItem[];
+    skippedFiles: string[];
 }

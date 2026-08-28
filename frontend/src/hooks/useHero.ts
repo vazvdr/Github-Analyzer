@@ -21,7 +21,9 @@ export function useHero() {
         }
         const repository = parseGitHubRepository(url);
         if (!repository) {
-            setError("Informe uma URL válida no formato https://github.com/usuario/repositorio.");
+            setError(
+                "Informe uma URL válida no formato https://github.com/usuario/repositorio."
+            );
             return;
         }
         setLoading(true);
@@ -35,7 +37,10 @@ export function useHero() {
             });
             const data = await response.json();
             if (!response.ok) {
-                if (response.status === 413 && data.code === "REPOSITORY_TOO_LARGE") {
+                if (
+                    response.status === 413 &&
+                    data.code === "REPOSITORY_TOO_LARGE"
+                ) {
                     setRepositorySize(data.repository?.size ?? 0);
                     setRepositoryTooLarge(true);
                     return;
@@ -47,13 +52,20 @@ export function useHero() {
                 );
                 return;
             }
+            // Salva o resultado completo da análise para o dashboard.
             sessionStorage.setItem(
-                "github-repository",
-                JSON.stringify(data.repository)
+                "github-analysis",
+                JSON.stringify(data)
             );
-            router.push(`/dashboard?repository=${encodeURIComponent(url)}`);
+
+            // Mantém a URL limpa e navega para o dashboard.
+            router.push(
+                `/dashboard?repository=${encodeURIComponent(url)}`
+            );
         } catch {
-            setError("Não foi possível conectar ao GitHub. Tente novamente.");
+            setError(
+                "Não foi possível conectar ao GitHub. Tente novamente."
+            );
         } finally {
             setLoading(false);
         }
