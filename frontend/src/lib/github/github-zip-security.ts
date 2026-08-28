@@ -27,7 +27,6 @@ function getUncompressedSize(
 
     return data?.uncompressedSize ?? 0;
 }
-
 export function validateZipSecurity(
     zip: JSZip
 ): void {
@@ -55,7 +54,6 @@ export function validateZipSecurity(
                 "O arquivo ZIP contém uma entrada inválida."
             );
         }
-
         const uncompressedSize =
             getUncompressedSize(entry);
         if (
@@ -66,10 +64,7 @@ export function validateZipSecurity(
                 "Não foi possível validar o tamanho de um arquivo do ZIP."
             );
         }
-
-        /*
-         * Proteção contra ZIP bomb.
-        */
+        // proteção contra zip bomb
         totalUncompressedSize +=
             uncompressedSize;
         if (
