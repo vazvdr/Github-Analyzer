@@ -23,3 +23,11 @@ export function repositoryChatKey(
 ): string {
     return `${REDIS_PREFIX}:chat:${owner}:${repository}:${sha}`;
 }
+
+export function repositoryAIAnalysisKey(
+    owner: string,
+    repository: string,
+    sha: string
+): string {
+    return `${REDIS_PREFIX}:ai-analysis:${owner}:${repository}:${sha}`;
+}

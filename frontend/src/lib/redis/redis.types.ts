@@ -1,4 +1,5 @@
 import type {
+    AIRepositoryAnalysis,
     GitHubAnalysisStructure,
     GitHubRepositoryResponse,
     GitHubTreeItem,
@@ -40,4 +41,11 @@ export interface RepositoryChatCache {
     repository: string;
     messages: RepositoryChatMessage[];
     updatedAt: string;
+}
+
+export interface RepositoryAIAnalysisCache {
+    repository: GitHubRepositoryResponse;
+    sha: string;
+    analysis: AIRepositoryAnalysis;
+    createdAt: string;
 }

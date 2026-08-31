@@ -1,11 +1,14 @@
-const positivePoints = [
-    "Stack moderna e bem suportada.",
-    "Uso de TypeScript para segurança de tipos.",
-    "Componentização adequada.",
-    "Estrutura preparada para crescimento.",
-];
+import type { AIRepositoryAnalysis } from "@/lib/github/github.types";
 
-export function ArchitectureAnalysis() {
+interface ArchitectureAnalysisProps {
+    analysis: AIRepositoryAnalysis | null;
+    loading: boolean;
+}
+
+export function ArchitectureAnalysis({
+    analysis,
+    loading,
+}: ArchitectureAnalysisProps) {
     return (
         <div className="dashboard-surface dashboard-border rounded-xl border lg:col-span-2">
             <div className="dashboard-border border-b px-6 py-5">
@@ -27,49 +30,102 @@ export function ArchitectureAnalysis() {
             </div>
 
             <div className="space-y-6 p-6">
-                <div>
-                    <h3 className="dashboard-accent text-sm font-semibold">
-                        Visão geral
-                    </h3>
+                {loading && (
+                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
 
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                        O projeto utiliza uma arquitetura moderna baseada em
-                        Next.js e TypeScript. A aplicação está organizada em
-                        componentes reutilizáveis e utiliza o App Router para
-                        estruturar as páginas.
-                    </p>
-                </div>
+                        Analisando o código com IA...
+                    </div>
+                )}
 
-                <div>
-                    <h3 className="dashboard-accent text-sm font-semibold">
-                        Organização
-                    </h3>
+                {!loading && !analysis && (
+                    <div className="dashboard-muted-surface dashboard-border rounded-lg border p-5">
+                        <p className="text-sm text-muted-foreground">
+                            A análise da arquitetura ainda não está disponível.
+                        </p>
+                    </div>
+                )}
 
-                    <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                        A estrutura apresenta uma separação clara entre
-                        interface, regras de negócio e recursos compartilhados.
-                        O projeto também utiliza Tailwind CSS para estilização.
-                    </p>
-                </div>
+                {!loading && analysis && (
+                    <>
+                        <div>
+                            <h3 className="dashboard-accent text-sm font-semibold">
+                                Visão geral
+                            </h3>
 
-                <div>
-                    <h3 className="dashboard-accent text-sm font-semibold">
-                        Pontos positivos
-                    </h3>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                                {analysis.overview}
+                            </p>
+                        </div>
 
-                    <ul className="mt-3 space-y-2">
-                        {positivePoints.map((item) => (
-                            <li
-                                key={item}
-                                className="flex items-start gap-3 text-sm text-muted-foreground"
-                            >
-                                <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+                        <div>
+                            <h3 className="dashboard-accent text-sm font-semibold">
+                                Arquitetura
+                            </h3>
 
-                                <span>{item}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                                {analysis.architecture}
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 className="dashboard-accent text-sm font-semibold">
+                                Pontos positivos
+                            </h3>
+
+                            <ul className="mt-3 space-y-2">
+                                {analysis.strengths.map((item) => (
+                                    <li
+                                        key={item}
+                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                    >
+                                        <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 className="dashboard-accent text-sm font-semibold">
+                                Pontos de atenção
+                            </h3>
+
+                            <ul className="mt-3 space-y-2">
+                                {analysis.weaknesses.map((item) => (
+                                    <li
+                                        key={item}
+                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                    >
+                                        <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 className="dashboard-accent text-sm font-semibold">
+                                Recomendações
+                            </h3>
+
+                            <ul className="mt-3 space-y-2">
+                                {analysis.recommendations.map((item) => (
+                                    <li
+                                        key={item}
+                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                    >
+                                        <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
+
+                                        <span>{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

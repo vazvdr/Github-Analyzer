@@ -66,3 +66,11 @@ export interface GitHubAnalysisData {
     files: GitHubTreeItem[];
     skippedFiles: string[];
 }
+
+export interface AIRepositoryAnalysis {
+    overview: string;
+    architecture: string;
+    strengths: string[];
+    weaknesses: string[];
+    recommendations: string[];
+}

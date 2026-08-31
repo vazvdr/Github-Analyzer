@@ -4,11 +4,13 @@ import {
     setRedisJson,
 } from "./redis-cache";
 import {
+    repositoryAIAnalysisKey,
     repositoryAnalysisKey,
     repositoryChatKey,
     repositoryChunksKey,
 } from "./redis-keys";
 import type {
+    RepositoryAIAnalysisCache,
     RepositoryAnalysisCache,
     RepositoryChatCache,
     RepositoryChunk,
@@ -107,4 +109,27 @@ export async function deleteRepositoryChat(
     sha: string
 ): Promise<void> {
     await deleteRedisKey(repositoryChatKey(owner, repository, sha));
+}
+
+export async function saveRepositoryAIAnalysis(
+    owner: string,
+    repository: string,
+    sha: string,
+    data: RepositoryAIAnalysisCache
+): Promise<void> {
+    await setRedisJson(
+        repositoryAIAnalysisKey(owner, repository, sha),
+        data,
+        REDIS_TTL_SECONDS
+    );
+}
+
+export async function getRepositoryAIAnalysis(
+    owner: string,
+    repository: string,
+    sha: string
+): Promise<RepositoryAIAnalysisCache | null> {
+    return getRedisJson<RepositoryAIAnalysisCache>(
+        repositoryAIAnalysisKey(owner, repository, sha)
+    );
 }

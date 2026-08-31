@@ -21,7 +21,9 @@ export default function DashboardContent() {
         repositoryStats,
         technologies,
         owner,
-    } = useDashboard();
+        aiAnalysis,
+        aiLoading,
+     } = useDashboard();
 
     if (loading) {
         return (
@@ -52,7 +54,11 @@ export default function DashboardContent() {
                 />
                 <RepositoryStats stats={repositoryStats} />
                 <section className="mt-8 grid gap-6 lg:grid-cols-3">
-                    <ArchitectureAnalysis />
+                    <ArchitectureAnalysis
+                        analysis={aiAnalysis}
+                        loading={aiLoading}
+                    />
+
                     <Technologies
                         technologies={technologies}
                     />
