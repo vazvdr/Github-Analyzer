@@ -203,6 +203,7 @@
 
 .card-hover-effect:hover {
     border-color: var(--card-hover-effect);
+    color: var(--accent);
 }
 
 .repository-dialog {

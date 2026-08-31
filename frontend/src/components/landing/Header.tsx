@@ -48,7 +48,7 @@ export function Header() {
                             onClick={(event) =>
                                 scrollToSection(event, "como-funciona")
                             }
-                            className="transition-colors hover:text-foreground"
+                            className="transition-colors font-semibold hover:text-foreground"
                         >
                             Como funciona
                         </a>
@@ -58,7 +58,7 @@ export function Header() {
                             onClick={(event) =>
                                 scrollToSection(event, "recursos")
                             }
-                            className="transition-colors hover:text-foreground"
+                            className="transition-colors font-semibold hover:text-foreground"
                         >
                             Recursos
                         </a>

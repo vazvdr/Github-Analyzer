@@ -30,7 +30,7 @@ export function DashboardHeader() {
                         /
                     </span>
 
-                    <span className="hidden text-sm text-muted-foreground sm:block">
+                    <span className="hidden text-sm dashboard-accent sm:block">
                         Dashboard
                     </span>
                 </div>
@@ -38,7 +38,8 @@ export function DashboardHeader() {
                 <div className="flex items-center gap-3">
                     <Link
                         href="/"
-                        className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                        className="rounded-lg border border-border px-4 py-2 text-sm 
+                        font-medium transition-all hover:scale-110"
                     >
                         Nova análise
                     </Link>
