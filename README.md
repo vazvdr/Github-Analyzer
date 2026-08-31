@@ -527,6 +527,6 @@ dados           Processamento
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Vanderson Rocha**.
+Desenvolvido por **Vanderson Azevedo**.
 
 Projeto desenvolvido com foco em arquitetura de software, processamento de código, cache distribuído, integração com APIs e inteligência artificial.
