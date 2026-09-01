@@ -42,7 +42,7 @@ export function Header() {
                     </Link>
 
                     {/* Desktop */}
-                    <nav className="hidden items-center gap-4 text-sm text-muted-foreground sm:flex">
+                    <nav className="hidden items-center gap-4 text-sm sm:flex">
                         <a
                             href="#como-funciona"
                             onClick={(event) =>
@@ -125,7 +125,7 @@ export function Header() {
                                         "como-funciona"
                                     )
                                 }
-                                className="rounded-lg px-3 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                                className="rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
                             >
                                 Como funciona
                             </a>
@@ -138,7 +138,7 @@ export function Header() {
                                         "recursos"
                                     )
                                 }
-                                className="rounded-lg px-3 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                                className="rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
                             >
                                 Recursos
                             </a>

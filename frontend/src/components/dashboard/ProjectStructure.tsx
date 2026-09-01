@@ -16,7 +16,7 @@ export function ProjectStructure({
                     Estrutura do projeto
                 </h2>
 
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-1 text-sm">
                     Estrutura de arquivos selecionados durante a análise.
                 </p>
             </div>
@@ -24,7 +24,7 @@ export function ProjectStructure({
             {structure && (
                 <div className="dashboard-border grid gap-4 border-b px-6 py-5 sm:grid-cols-4">
                     <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs">
                             Arquivos
                         </p>
 
@@ -34,7 +34,7 @@ export function ProjectStructure({
                     </div>
 
                     <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs">
                             Relevantes
                         </p>
 
@@ -44,7 +44,7 @@ export function ProjectStructure({
                     </div>
 
                     <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs">
                             Analisados
                         </p>
 
@@ -54,7 +54,7 @@ export function ProjectStructure({
                     </div>
 
                     <div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs">
                             Ignorados
                         </p>
 
@@ -72,7 +72,7 @@ export function ProjectStructure({
                             Análise parcialmente limitada
                         </p>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
+                        <p className="mt-1 text-sm">
                             {analysis.reason}
                         </p>
                     </div>

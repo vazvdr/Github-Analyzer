@@ -20,7 +20,7 @@ export function ButtonClearInput({
             type="button"
             onClick={() => setRepositoryUrl("")}
             aria-label="Limpar repositório"
-            className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-md transition-colors hover:bg-muted hover:text-foreground"
         >
             <svg
                 viewBox="0 0 24 24"

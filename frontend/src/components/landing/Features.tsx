@@ -30,7 +30,7 @@ export function Features() {
             className="mx-auto max-w-6xl px-6 py-20 border-y border-[var(--section-border)]"
         >
             <div className="text-center ">
-                <span className="text-sm font-semibold text-muted-foreground">
+                <span className="text-sm font-semibold">
                     RECURSOS
                 </span>
 
@@ -38,7 +38,7 @@ export function Features() {
                     Muito mais que um resumo do GitHub.
                 </h2>
 
-                <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                <p className="mx-auto mt-4 max-w-2xl">
                     O objetivo é transformar um repositório inteiro em uma
                     interface onde você consegue realmente conversar e
                     entender o projeto.

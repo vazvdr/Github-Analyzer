@@ -102,11 +102,11 @@ export function RepositoryStats({
                         className="dashboard-surface dashboard-border card-hover-effect rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
                     >
                         <div className="flex items-center justify-between">
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-sm">
                                 {stat.label}
                             </span>
 
-                            <div className="text-muted-foreground transition-colors duration-200 group-hover:dashboard-accent">
+                            <div className="transition-colors duration-200 group-hover:dashboard-accent">
                                 {icons[index]}
                             </div>
                         </div>
@@ -116,7 +116,7 @@ export function RepositoryStats({
                                 {stat.value}
                             </p>
 
-                            <p className="mt-1 text-xs text-muted-foreground">
+                            <p className="mt-1 text-xs">
                                 {stat.description}
                             </p>
                         </div>

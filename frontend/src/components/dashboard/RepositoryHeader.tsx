@@ -11,7 +11,7 @@ export function RepositoryHeader({
         <section>
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                 <div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm">
                         <span>Repositório analisado</span>
                     </div>
                     <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -23,7 +23,7 @@ export function RepositoryHeader({
                         </span>
                     </div>
                     {description && (
-                        <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
+                        <p className="mt-3 max-w-2xl text-sm leading-6">
                             {description}
                         </p>
                     )}

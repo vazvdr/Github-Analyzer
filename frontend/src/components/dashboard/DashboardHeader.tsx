@@ -26,7 +26,7 @@ export function DashboardHeader() {
                         </span>
                     </Link>
 
-                    <span className="hidden text-muted-foreground sm:block">
+                    <span className="hidden sm:block">
                         /
                     </span>
 

@@ -18,7 +18,7 @@ export function ArchitectureAnalysis({
                             Análise da arquitetura
                         </h2>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
+                        <p className="mt-1 text-sm">
                             Visão geral gerada pela inteligência artificial.
                         </p>
                     </div>
@@ -31,16 +31,15 @@ export function ArchitectureAnalysis({
 
             <div className="space-y-6 p-6">
                 {loading && (
-                    <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-muted-foreground/30 border-t-foreground" />
-
+                    <div className="flex items-center gap-3 text-sm">
+                        <span className="h-4 w-4 animate-spin rounded-full" />
                         Analisando o código com IA...
                     </div>
                 )}
 
                 {!loading && !analysis && (
                     <div className="dashboard-muted-surface dashboard-border rounded-lg border p-5">
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm">
                             A análise da arquitetura ainda não está disponível.
                         </p>
                     </div>
@@ -53,7 +52,7 @@ export function ArchitectureAnalysis({
                                 Visão geral
                             </h3>
 
-                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                            <p className="mt-2 text-sm leading-7">
                                 {analysis.overview}
                             </p>
                         </div>
@@ -63,7 +62,7 @@ export function ArchitectureAnalysis({
                                 Arquitetura
                             </h3>
 
-                            <p className="mt-2 text-sm leading-7 text-muted-foreground">
+                            <p className="mt-2 text-sm leading-7">
                                 {analysis.architecture}
                             </p>
                         </div>
@@ -77,7 +76,7 @@ export function ArchitectureAnalysis({
                                 {analysis.strengths.map((item) => (
                                     <li
                                         key={item}
-                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                        className="flex items-start gap-3 text-sm"
                                     >
                                         <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
 
@@ -96,7 +95,7 @@ export function ArchitectureAnalysis({
                                 {analysis.weaknesses.map((item) => (
                                     <li
                                         key={item}
-                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                        className="flex items-start gap-3 text-sm"
                                     >
                                         <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
 
@@ -115,7 +114,7 @@ export function ArchitectureAnalysis({
                                 {analysis.recommendations.map((item) => (
                                     <li
                                         key={item}
-                                        className="flex items-start gap-3 text-sm text-muted-foreground"
+                                        className="flex items-start gap-3 text-sm"
                                     >
                                         <span className="dashboard-accent mt-2 h-1.5 w-1.5 shrink-0 rounded-full" />
 

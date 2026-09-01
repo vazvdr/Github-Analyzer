@@ -25,7 +25,7 @@ export function RepositoryChat() {
                             Converse com o repositório
                         </h2>
 
-                        <p className="mt-1 text-sm text-muted-foreground">
+                        <p className="mt-1 text-sm">
                             Faça perguntas sobre o código utilizando IA.
                         </p>
                     </div>
@@ -34,7 +34,7 @@ export function RepositoryChat() {
 
             <div className="p-6">
                 <div className="dashboard-muted-surface dashboard-border rounded-lg border p-5">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm">
                         O chat com o repositório será disponibilizado aqui
                         depois que implementarmos o pipeline de RAG.
                     </p>

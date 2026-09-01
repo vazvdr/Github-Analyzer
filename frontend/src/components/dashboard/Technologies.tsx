@@ -10,7 +10,7 @@ export function Technologies({
                     Tecnologias
                 </h2>
 
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="mt-1 text-sm">
                     Tecnologias identificadas no projeto.
                 </p>
             </div>

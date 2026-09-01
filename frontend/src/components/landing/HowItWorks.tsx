@@ -25,13 +25,13 @@ export function HowItWorks() {
         <section id="como-funciona">
             <div className="mx-auto max-w-6xl px-6 py-20">
                 <div className="max-w-2xl">
-                    <span className="text-sm font-semibold text-muted-foreground">
+                    <span className="text-sm font-semibold">
                         COMO FUNCIONA
                     </span>
                     <h2 className="mt-3 text-3xl font-bold tracking-tight">
                         Da URL para uma análise completa.
                     </h2>
-                    <p className="mt-4 text-muted-foreground">
+                    <p className="mt-4">
                         O sistema será responsável por processar o repositório
                         e utilizar IA para transformar o código em informações
                         úteis.
