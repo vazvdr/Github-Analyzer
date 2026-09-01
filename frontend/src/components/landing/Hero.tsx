@@ -124,7 +124,7 @@ export function Hero() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="hero-button h-12 cursor-pointer rounded-lg px-6 text-sm font-semibold transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="buttons h-12 cursor-pointer rounded-lg px-6 text-sm font-semibold transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                     {loading ? (
                                         <span className="flex items-center justify-center gap-2">

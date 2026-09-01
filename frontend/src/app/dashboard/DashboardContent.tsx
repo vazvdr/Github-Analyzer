@@ -9,6 +9,7 @@ import { Technologies } from "@/components/dashboard/Technologies";
 import { ButtonTop } from "@/components/shared/ButtonTop";
 import { useDashboard } from "@/hooks/useDashboard";
 import { Footer } from "@/components/landing/Footer";
+import { GitHubLoading } from "@/components/shared/GithubLoading";
 
 export default function DashboardContent() {
     const {
@@ -26,14 +27,7 @@ export default function DashboardContent() {
      } = useDashboard();
 
     if (loading) {
-        return (
-            <main className="flex min-h-screen items-center justify-center bg-background text-foreground">
-                <div className="flex items-center gap-3 text-sm">
-                    <span className="h-4 w-4 animate-spin rounded-full" />
-                    Carregando informações do repositório...
-                </div>
-            </main>
-        );
+        return <GitHubLoading/>;
     }
     if (!repository) {
         return null;

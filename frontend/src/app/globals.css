@@ -3,32 +3,18 @@
 :root {
     --accent: #2d2d2e;
     --destructive: oklch(61.577% 0.21034 36.103);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
-    --background: linear-gradient(to right,
-            #ffffff 0%,
-            #e4e4e7 50%,
-            #ffffff 100%);
-    --hero-title-gradient: linear-gradient(to right,
-            #959292 0%,
-            #7a7a92 50%,
-            #49494b 100%);
+    --border: #0437a5;
+    --background: linear-gradient(to right, #ffffff 0%, #e4e4e7 50%, #ffffff 100%);
+    --hero-title-gradient: linear-gradient(to right,#959292 0%,#7a7a92 50%,#49494b 100%);
     --hero-paragraph-color: #2d2d2e;
-    --hero-input-border: #0437a5;
-    --hero-input-placeholder: #000000;
-    --hero-button-background: #000000;
-    --hero-button-foreground: #ffffff;
-    --hero-button-hover-background: #2563eb;
-    --hero-button-hover-foreground: #ffffff;
-    --section-border: oklch(42.063% 0.28785 265.367);
+    --placeholder: #000000;
+    --button-background: #000000;
+    --button-text-color: #ffffff;
+    --button-hover-background: #2563eb;
+    --button-hover-foreground: #ffffff;
     --card-hover-effect: #0844a3;
-    --github-gradient: linear-gradient(to right,
-            #7c7c7d 0%,
-            #18181b 50%,
-            #52525b 100%);
-
-    /* Dashboard */
+    --github-gradient: linear-gradient(to right,#7c7c7d 0%,#18181b 50%,#52525b 100%);
     --dashboard-background: #f4f5f7;
     --dashboard-surface: #ffffff;
     --dashboard-border: #d1d5db;
@@ -37,41 +23,24 @@
     --dashboard-accent-border: rgba(37, 99, 235, 0.3);
     --dashboard-code-background: #e5e7eb;
     --dashboard-code-foreground: #374151;
-
-    background: var(--background);
+    --background: var(--background);
 }
-
 .dark {
     --accent: oklch(100% 0.00011 271.152);
-    --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
+    --border: #9cfe09;
     --ring: oklch(0.556 0 0);
     /* Landing */
-    --background: linear-gradient(to right,
-            #27272a 0%,
-            #000000 50%,
-            #27272a 100%);
-    --hero-title-gradient: linear-gradient(to right,
-            #ffffff 0%,
-            #a2e506 50%,
-            #a1a1aa 100%);
+    --background: linear-gradient(to right,#27272a 0%,#000000 50%,#27272a 100%);
+    --hero-title-gradient: linear-gradient(to right,#ffffff 0%,#a2e506 50%,#a1a1aa 100%);
     --hero-paragraph-color: #b5b5bb;
-    --hero-input-border: #9cfe09;
-    --hero-input-placeholder: #ffffff;
-    --hero-button-background: #ffffff;
-    --hero-button-foreground: #000000;
-    --hero-button-hover-background: #9cfe09;
-    --hero-button-hover-foreground: #000000;
-    --section-border: oklch(0.841 0.238 128.85);
+    --placeholder: #ffffff;
+    --button-background: #ffffff;
+    --button-text-color: #000000;
+    --button-hover-background: #9cfe09;
+    --button-hover-foreground: #000000;
     --card-hover-effect: #9cfe09;
-    --github-gradient: linear-gradient(to right,
-            #a5a5a5 0%,
-            #4a4a4a 50%,
-            #d6d6d6 100%);
-
-    /* Dashboard */
+    --github-gradient: linear-gradient(to right,#a5a5a5 0%,#4a4a4a 50%,#d6d6d6 100%);
     --dashboard-background: #050505;
     --dashboard-surface: #0a0a0a;
     --dashboard-border: rgba(156, 254, 9, 0.18);
@@ -80,136 +49,110 @@
     --dashboard-accent-border: rgba(156, 254, 9, 0.3);
     --dashboard-code-background: #080808;
     --dashboard-code-foreground: #a3a3a3;
-    background: var(--background);
+    --background: var(--background);
 }
-
 .hero-title-gradient {
     background: var(--hero-title-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
 }
-
 .github-gradient {
     background: var(--github-gradient);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
 }
-
 .github-animated {
     display: inline-block;
     animation: github-pulse 2.5s ease-in-out infinite;
     transform-origin: center;
 }
-
 @keyframes github-pulse {
-
     0%,
     100% {
         transform: scale(1);
         filter: brightness(1);
     }
-
     50% {
         transform: scale(1.08);
         filter: brightness(1.2);
     }
 }
-
 .hero-paragraph {
     color: var(--hero-paragraph-color);
 }
-
 .hero-input {
-    border: 1px solid var(--hero-input-border);
+    border: 1px solid var(--border);
     background-color: transparent;
     color: var(--foreground);
 }
-
 .hero-input::placeholder {
-    color: var(--hero-input-placeholder);
+    color: var(--placeholder);
 }
-
-.hero-button {
-    background-color: var(--hero-button-background);
-    color: var(--hero-button-foreground);
-    border: 1px solid var(--hero-input-border);
+.buttons {
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    border: 1px solid var(--border);
     transition:
         background-color 0.2s ease,
         color 0.2s ease,
         transform 0.2s ease;
 }
-
-.hero-button:hover {
-    background-color: var(--hero-button-hover-background);
-    color: var(--hero-button-hover-foreground);
+.buttons:hover {
+    background-color: var(--button-hover-background);
+    color: var(--button-hover-foreground);
 }
-
 .card-hover-background {
     background-color: color-mix(in srgb,
             var(--card-hover-effect) 70%,
             transparent);
 }
-
 .card-hover-effect:hover {
     border-color: var(--card-hover-effect);
     color: var(--accent);
 }
-
 .repository-dialog {
     background-color: var(--destructive);
     color: var(--accent);
 }
-
 .repository-dialog button {
     background-color: var(--repository-dialog-button);
     color: var(--repository-dialog-button-foreground);
     border: var(--border);
 }
-
 .repository-dialog button:hover {
     opacity: 0.9;
 }
-
 .repository-dialog svg {
     color: var(--repository-dialog-foreground);
 }
-
 .dashboard-surface {
     background-color: var(--dashboard-surface);
 }
-
 .dashboard-border {
     border-color: var(--dashboard-border);
 }
-
 .dashboard-accent {
     color: var(--dashboard-accent);
 }
-
 .dashboard-accent-background {
     background-color: var(--dashboard-accent-background);
 }
-
 .dashboard-accent-border {
     border-color: var(--dashboard-accent-border);
 }
-
 .dashboard-code {
     background-color: var(--dashboard-code-background);
     color: var(--dashboard-code-foreground);
 }
-
 html {
     scroll-behavior: smooth;
 }
-
 body {
     background: var(--background);
     color: var(--foreground);
 }
-
 .github-intro {
     position: fixed;
     inset: 0;
@@ -218,84 +161,62 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: none;
-
     color: var(--foreground);
-
     opacity: 1;
     transform: scale(1);
-
     transition:
         opacity 0.8s ease,
         transform 0.8s ease;
 }
-
 .github-intro-hidden {
     opacity: 0;
     transform: scale(0.7);
 }
-
 .github-intro-icon {
     width: 40vw;
     height: 40vw;
     max-width: 500px;
     max-height: 500px;
-
     opacity: 0.08;
-
     filter: drop-shadow(
         0 0 40px color-mix(in srgb, var(--foreground) 25%, transparent)
     );
-
     animation: github-intro-pulse 1.5s ease-in-out infinite;
 }
-
 .github-intro-hidden .github-intro-icon {
     animation: none;
 }
-
 .hero-section {
     position: relative;
     isolation: isolate;
-
     min-height: calc(100vh - 4rem);
     max-width: 72rem;
     margin-inline: auto;
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     overflow: hidden;
-
     padding: 6rem 1.5rem 6rem;
-
     text-align: center;
-
     opacity: 0;
     transform: scale(0.92) translateY(20px);
-
     pointer-events: none;
-
     transition:
         opacity 1s ease,
         transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .hero-section-visible {
     opacity: 1;
     transform: scale(1) translateY(0);
-
     pointer-events: auto;
 }
-
 @keyframes github-intro-pulse {
     0%,
     100% {
         transform: scale(0.96);
         opacity: 0.06;
     }
-
     50% {
         transform: scale(1.04);
         opacity: 0.1;

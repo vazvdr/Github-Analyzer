@@ -21,7 +21,7 @@ export function DashboardHeader() {
                             </svg>
                         </div>
 
-                        <span className="text-sm font-semibold tracking-tight">
+                        <span className="text-sm font-semibold tracking-tight hover:scale-105">
                             GitHub Analyzer
                         </span>
                     </Link>
@@ -38,8 +38,8 @@ export function DashboardHeader() {
                 <div className="flex items-center gap-3">
                     <Link
                         href="/"
-                        className="rounded-lg border border-border px-4 py-2 text-sm 
-                        font-medium transition-all hover:scale-110"
+                        className="buttons rounded-lg border border-border px-4 py-2 text-sm 
+    font-medium transition-all duration-300 ease-in-out hover:scale-105"
                     >
                         Nova análise
                     </Link>
