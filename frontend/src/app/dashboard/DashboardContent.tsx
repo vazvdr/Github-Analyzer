@@ -57,7 +57,7 @@ export default function DashboardContent() {
                         technologies={technologies}
                     />
                 </section>
-                <RepositoryChat />
+                <RepositoryChat repositoryUrl={repositoryUrl} />
                 <ProjectStructure
                     files={files}
                     structure={structure}

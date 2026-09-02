@@ -113,5 +113,15 @@
   "technologies": {
   "title": "Tecnologías",
   "description": "Tecnologías identificadas en el proyecto."
+},
+"repositoryChat": {
+    "title": "Conversa con el repositorio",
+    "description": "Haz preguntas sobre el código utilizando IA.",
+    "emptyTitle": "Haz una pregunta sobre el proyecto",
+    "emptyDescription": "Pregunta sobre arquitectura, archivos, funciones, tecnologías o cualquier otra parte del código.",
+    "inputPlaceholder": "Pregunta cualquier cosa sobre el código...",
+    "ask": "Preguntar",
+    "sending": "Enviando...",
+    "thinking": "Analizando el código..."
 }
 }

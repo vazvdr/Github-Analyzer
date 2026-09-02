@@ -113,5 +113,15 @@
   "technologies": {
   "title": "Technologies",
   "description": "Technologies identified in the project."
+},
+"repositoryChat": {
+    "title": "Chat with the repository",
+    "description": "Ask questions about the code using AI.",
+    "emptyTitle": "Ask a question about the project",
+    "emptyDescription": "Ask about architecture, files, functions, technologies, or any other part of the code.",
+    "inputPlaceholder": "Ask anything about the code...",
+    "ask": "Ask",
+    "sending": "Sending...",
+    "thinking": "Analyzing the code..."
 }
 }

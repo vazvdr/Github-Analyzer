@@ -1,4 +1,60 @@
-export function RepositoryChat() {
+"use client";
+
+import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
+
+import {
+    useRepositoryChat,
+} from "@/hooks/useRepositoryChat";
+
+interface RepositoryChatProps {
+    repositoryUrl: string;
+}
+
+export function RepositoryChat({
+    repositoryUrl,
+}: RepositoryChatProps) {
+    const { t } = useTranslation();
+
+    const {
+        messages,
+        input,
+        loading,
+        error,
+        setInput,
+        sendMessage,
+    } = useRepositoryChat({
+        repositoryUrl,
+    });
+
+    const messagesEndRef =
+        useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, [messages, loading]);
+
+    function handleSubmit(
+        event: React.FormEvent<HTMLFormElement>
+    ) {
+        event.preventDefault();
+        void sendMessage();
+    }
+
+    function handleKeyDown(
+        event: React.KeyboardEvent<HTMLInputElement>
+    ) {
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+            event.preventDefault();
+            void sendMessage();
+        }
+    }
+
     return (
         <section className="dashboard-surface dashboard-border mt-6 rounded-xl border">
             <div className="dashboard-border border-b px-6 py-5">
@@ -22,40 +78,126 @@ export function RepositoryChat() {
 
                     <div>
                         <h2 className="font-semibold">
-                            Converse com o repositório
+                            {t("repositoryChat.title")}
                         </h2>
 
                         <p className="mt-1 text-sm">
-                            Faça perguntas sobre o código utilizando IA.
+                            {t(
+                                "repositoryChat.description"
+                            )}
                         </p>
                     </div>
                 </div>
             </div>
 
             <div className="p-6">
-                <div className="dashboard-muted-surface dashboard-border rounded-lg border p-5">
-                    <p className="text-sm">
-                        O chat com o repositório será disponibilizado aqui
-                        depois que implementarmos o pipeline de RAG.
-                    </p>
+                <div className="dashboard-muted-surface dashboard-border min-h-[220px] max-h-[520px] space-y-4 overflow-y-auto rounded-lg border p-4">
+                    {messages.length === 0 && (
+                        <div className="flex min-h-[180px] items-center justify-center text-center">
+                            <div className="max-w-md">
+                                <p className="text-sm font-medium">
+                                    {t(
+                                        "repositoryChat.emptyTitle"
+                                    )}
+                                </p>
+
+                                <p className="mt-2 text-sm">
+                                    {t(
+                                        "repositoryChat.emptyDescription"
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {messages.map((message) => {
+                        const isUser =
+                            message.role === "user";
+
+                        return (
+                            <div
+                                key={message.id}
+                                className={`flex ${isUser
+                                        ? "justify-end"
+                                        : "justify-start"
+                                    }`}
+                            >
+                                <div
+                                    className={`max-w-[85%] rounded-xl px-4 py-3 text-sm leading-6 ${isUser
+                                            ? "dashboard-accent-background dashboard-accent-border dashboard-accent border"
+                                            : "dashboard-surface dashboard-border border"
+                                        }`}
+                                >
+                                    <p className="whitespace-pre-wrap">
+                                        {message.content}
+                                    </p>
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                    {loading && (
+                        <div className="flex justify-start">
+                            <div className="dashboard-surface dashboard-border flex items-center gap-3 rounded-xl border px-4 py-3">
+                                <span className="dashboard-accent h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+
+                                <span className="text-sm">
+                                    {t(
+                                        "repositoryChat.thinking"
+                                    )}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    <div ref={messagesEndRef} />
                 </div>
 
-                <div className="mt-4 flex gap-2">
+                {error && (
+                    <div className="dashboard-accent-background dashboard-accent-border dashboard-accent mt-4 rounded-lg border p-4">
+                        <p className="text-sm">
+                            {error}
+                        </p>
+                    </div>
+                )}
+
+                <form
+                    onSubmit={handleSubmit}
+                    className="mt-4 flex gap-2"
+                >
                     <input
                         type="text"
-                        disabled
-                        placeholder="Pergunte qualquer coisa sobre o código..."
-                        className="dashboard-input h-11 flex-1 rounded-lg border px-4 text-sm outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                        value={input}
+                        onChange={(event) =>
+                            setInput(
+                                event.target.value
+                            )
+                        }
+                        onKeyDown={handleKeyDown}
+                        disabled={loading}
+                        placeholder={t(
+                            "repositoryChat.inputPlaceholder"
+                        )}
+                        className="dashboard-input h-11 flex-1 rounded-lg border px-4 text-sm outline-none transition focus:ring-2 focus:ring-current/10 disabled:cursor-not-allowed disabled:opacity-60"
                     />
 
                     <button
-                        type="button"
-                        disabled
-                        className="dashboard-button h-11 rounded-lg px-5 text-sm font-semibold opacity-50"
+                        type="submit"
+                        disabled={
+                            loading ||
+                            !input.trim()
+                        }
+                        className="dashboard-button h-11 cursor-pointer rounded-lg px-5 text-sm font-semibold transition-all duration-200 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
                     >
-                        Perguntar
+                        {loading
+                            ? t(
+                                "repositoryChat.sending"
+                            )
+                            : t(
+                                "repositoryChat.ask"
+                            )}
                     </button>
-                </div>
+                </form>
             </div>
         </section>
     );

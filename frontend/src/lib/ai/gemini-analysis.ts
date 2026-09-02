@@ -1,4 +1,4 @@
-import { gemini } from "./gemini-client";
+import { generateGeminiContent } from "./gemini-client";
 import type { AIRepositoryAnalysis } from "@/lib/github/github.types";
 import { buildRepositoryAnalysisPrompt } from "./gemini-prompts";
 
@@ -14,10 +14,11 @@ export async function analyzeRepositoryWithGemini(
         repositoryName,
         files
     );
-    const response = await gemini.models.generateContent({
-        model: "gemini-3.6-flash",
-        contents: prompt,
-    });
+    const response = await generateGeminiContent(
+        prompt,
+        "gemini-3.6-flash",
+        "gemini-3.5-flash-lite"
+    );
     const text = response.text?.trim();
     if (!text) {
         throw new Error(
