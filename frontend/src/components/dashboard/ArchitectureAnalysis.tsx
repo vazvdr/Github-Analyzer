@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "react-i18next";
+
 import type { AIRepositoryAnalysis } from "@/lib/github/github.types";
 
 interface ArchitectureAnalysisProps {
@@ -9,22 +13,24 @@ export function ArchitectureAnalysis({
     analysis,
     loading,
 }: ArchitectureAnalysisProps) {
+    const { t } = useTranslation();
+
     return (
         <div className="dashboard-surface dashboard-border rounded-xl border lg:col-span-2">
             <div className="dashboard-border border-b px-6 py-5">
                 <div className="flex items-center justify-between">
                     <div>
                         <h2 className="font-semibold">
-                            Análise da arquitetura
+                            {t("architectureAnalysis.title")}
                         </h2>
 
                         <p className="mt-1 text-sm">
-                            Visão geral gerada pela inteligência artificial.
+                            {t("architectureAnalysis.description")}
                         </p>
                     </div>
 
                     <div className="dashboard-accent-background dashboard-accent-border dashboard-accent rounded-lg border px-3 py-1.5 text-xs font-medium">
-                        IA
+                        {t("architectureAnalysis.ai")}
                     </div>
                 </div>
             </div>
@@ -33,14 +39,14 @@ export function ArchitectureAnalysis({
                 {loading && (
                     <div className="flex items-center gap-3 text-sm">
                         <span className="h-4 w-4 animate-spin rounded-full" />
-                        Analisando o código com IA...
+                        {t("architectureAnalysis.loading")}
                     </div>
                 )}
 
                 {!loading && !analysis && (
                     <div className="dashboard-muted-surface dashboard-border rounded-lg border p-5">
                         <p className="text-sm">
-                            A análise da arquitetura ainda não está disponível.
+                            {t("architectureAnalysis.unavailable")}
                         </p>
                     </div>
                 )}
@@ -49,7 +55,7 @@ export function ArchitectureAnalysis({
                     <>
                         <div>
                             <h3 className="dashboard-accent text-sm font-semibold">
-                                Visão geral
+                                {t("architectureAnalysis.overview")}
                             </h3>
 
                             <p className="mt-2 text-sm leading-7">
@@ -59,7 +65,7 @@ export function ArchitectureAnalysis({
 
                         <div>
                             <h3 className="dashboard-accent text-sm font-semibold">
-                                Arquitetura
+                                {t("architectureAnalysis.architecture")}
                             </h3>
 
                             <p className="mt-2 text-sm leading-7">
@@ -69,7 +75,7 @@ export function ArchitectureAnalysis({
 
                         <div>
                             <h3 className="dashboard-accent text-sm font-semibold">
-                                Pontos positivos
+                                {t("architectureAnalysis.strengths")}
                             </h3>
 
                             <ul className="mt-3 space-y-2">
@@ -88,7 +94,7 @@ export function ArchitectureAnalysis({
 
                         <div>
                             <h3 className="dashboard-accent text-sm font-semibold">
-                                Pontos de atenção
+                                {t("architectureAnalysis.weaknesses")}
                             </h3>
 
                             <ul className="mt-3 space-y-2">
@@ -107,7 +113,7 @@ export function ArchitectureAnalysis({
 
                         <div>
                             <h3 className="dashboard-accent text-sm font-semibold">
-                                Recomendações
+                                {t("architectureAnalysis.recommendations")}
                             </h3>
 
                             <ul className="mt-3 space-y-2">

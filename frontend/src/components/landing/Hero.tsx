@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useHero } from "@/hooks/useHero";
 import { RepositoryTooLargeDialog } from "@/components/landing/RepositoryTooLargeDialog";
 import { ButtonClearInput } from "@/components/landing/ButtonClearInput";
 
 export function Hero() {
+    const { t } = useTranslation();
+
     const {
         repositoryUrl,
         setRepositoryUrl,
@@ -43,7 +46,7 @@ export function Hero() {
                     fill="currentColor"
                     className="github-intro-icon"
                 >
-                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.419 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.7-2.782.604-3.369-1.341-3.369-1.341-.455-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.607.069-.607 1.004.071 1.532 1.03 1.532 1.03.892 1.529 2.341 1.087 2.91.831.091-.646.349-1.087.635-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0 1 12 6.844a9.57 9.57 0 0 1 2.504.337c1.909-1.294 2.748-1.025 2.748-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.337-.012 2.415-.012 2.744 0 .269.18.58.688.482A10.001 10.001 0 0 0 22 12C22 6.477 17.523 2 12 2Z" />
+                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.419 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.866-.014-1.7-2.782.604-3.369-1.341-3.369-1.341-.455-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.607.069-.607 1.004.071 1.532 1.03 1.532 1.03.892 1.529 2.341 1.087 2.91.831.091-.646.349-1.087.635-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0 1 12 6.844a9.57 9.57 0 0 1 2.504.337c1.909-1.294 2.748-1.025 2.748-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 .?137-.012 2.415-.012 2.744 0 .269.18.58.688.482A10.001 10.001 0 0 0 22 12C22 6.477 17.523 2 12 2Z" />
                 </svg>
             </div>
 
@@ -56,21 +59,19 @@ export function Hero() {
                 <div className="hero-content w-full">
                     <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-xs font-medium animate-pulse">
                         <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                        Análise inteligente de código com IA
+                        {t("hero.badge")}
                     </div>
 
                     <h1 className="hero-title-gradient mx-auto max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl">
-                        Entenda qualquer repositório do{" "}
+                        {t("hero.title")}{" "}
                         <span className="github-gradient github-animated">
                             GitHub
                         </span>{" "}
-                        com nossa IA.
+                        {t("hero.titleEnd")}
                     </h1>
 
                     <p className="hero-paragraph mx-auto mt-6 max-w-2xl text-base leading-7 sm:text-lg">
-                        Insira o link de um repositório e deixe a inteligência
-                        artificial analisar sua arquitetura, tecnologias,
-                        estrutura, código e possíveis melhorias.
+                        {t("hero.description")}
                     </p>
 
                     <form
@@ -103,7 +104,7 @@ export function Hero() {
                                                 event.target.value
                                             )
                                         }
-                                        placeholder="https://github.com/usuario/repositorio"
+                                        placeholder={t("hero.inputPlaceholder")}
                                         disabled={loading}
                                         aria-invalid={!!error}
                                         aria-describedby={
@@ -128,11 +129,11 @@ export function Hero() {
                                 >
                                     {loading ? (
                                         <span className="flex items-center justify-center gap-2">
-                                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-background/30 border-t-background" />
-                                            Analisando...
+                                            <span className="h-4 w-4 animate-spin rounded-full" />
+                                            {t("hero.analyzing")}
                                         </span>
                                     ) : (
-                                        "Analisar repositório"
+                                        t("hero.analyzeButton")
                                     )}
                                 </button>
                             </div>
@@ -147,7 +148,7 @@ export function Hero() {
                             </p>
                         ) : (
                             <p className="mt-3 text-left text-xs">
-                                Exemplo: https://github.com/facebook/react
+                                {t("hero.example")}
                             </p>
                         )}
                     </form>

@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "react-i18next";
+
 import type { RepositoryStatsProps } from "@/types/dashboard/repository-stats.types";
 
 function StarIcon() {
@@ -86,11 +90,27 @@ function BranchIcon() {
 export function RepositoryStats({
     stats,
 }: RepositoryStatsProps) {
+    const { t } = useTranslation();
+
     const icons = [
         <StarIcon key="stars" />,
         <ForkIcon key="forks" />,
         <LanguageIcon key="language" />,
         <BranchIcon key="branch" />,
+    ];
+
+    const labels = [
+        t("repositoryStats.labels.stars"),
+        t("repositoryStats.labels.forks"),
+        t("repositoryStats.labels.language"),
+        t("repositoryStats.labels.branch"),
+    ];
+
+    const descriptions = [
+        t("repositoryStats.descriptions.stars"),
+        t("repositoryStats.descriptions.forks"),
+        t("repositoryStats.descriptions.language"),
+        t("repositoryStats.descriptions.branch"),
     ];
 
     return (
@@ -103,7 +123,7 @@ export function RepositoryStats({
                     >
                         <div className="flex items-center justify-between">
                             <span className="text-sm">
-                                {stat.label}
+                                {labels[index]}
                             </span>
 
                             <div className="transition-colors duration-200 group-hover:dashboard-accent">
@@ -117,7 +137,7 @@ export function RepositoryStats({
                             </p>
 
                             <p className="mt-1 text-xs">
-                                {stat.description}
+                                {descriptions[index]}
                             </p>
                         </div>
                     </div>

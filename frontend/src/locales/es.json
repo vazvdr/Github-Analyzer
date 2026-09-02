@@ -1,0 +1,117 @@
+{
+  "common": {
+    "language": "Idioma",
+    "portuguese": "Portugués",
+    "english": "Inglés",
+    "spanish": "Español"
+  },
+  "header": {
+    "howItWorks": "Cómo funciona",
+    "features": "Recursos",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "hero": {
+    "badge": "Análisis inteligente de código con IA",
+    "title": "Entiende cualquier repositorio de",
+    "titleEnd": "con nuestra IA.",
+    "description": "Introduce el enlace de un repositorio y deja que la inteligencia artificial analice su arquitectura, tecnologías, estructura, código y posibles mejoras.",
+    "inputPlaceholder": "https://github.com/usuario/repositorio",
+    "analyzing": "Analizando...",
+    "analyzeButton": "Analizar repositorio",
+    "example": "Ejemplo: https://github.com/facebook/react"
+  },
+  "features": {
+    "label": "RECURSOS",
+    "title": "Mucho más que un resumen de GitHub.",
+    "description": "El objetivo es transformar un repositorio completo en una interfaz donde realmente puedas interactuar y entender el proyecto.",
+    "items": {
+      "architecture": {
+        "title": "Arquitectura",
+        "description": "Identifica la estructura y organización del proyecto."
+      },
+      "technologies": {
+        "title": "Tecnologías",
+        "description": "Descubre el lenguaje de programación utilizado."
+      },
+      "code": {
+        "title": "Código",
+        "description": "Haz preguntas sobre archivos y fragmentos específicos."
+      },
+      "aiRag": {
+        "title": "IA + RAG",
+        "description": "Obtén respuestas utilizando el propio contenido del repositorio."
+      }
+    }
+  },
+  "howItWorks": {
+    "label": "CÓMO FUNCIONA",
+    "title": "De la URL a un análisis completo.",
+    "description": "El sistema procesará el repositorio y utilizará IA para transformar el código en información útil.",
+    "steps": {
+      "repository": {
+        "title": "01 — Introduce el repositorio",
+        "description": "Pega la URL pública de cualquier repositorio de GitHub que quieras analizar."
+      },
+      "analysis": {
+        "title": "02 — La IA analiza el código",
+        "description": "El sistema procesará los archivos, la estructura, las dependencias y el contenido relevante del proyecto."
+      },
+      "results": {
+        "title": "03 — Explora los resultados",
+        "description": "Podrás conversar con la IA sobre el repositorio y obtener respuestas basadas en el propio código."
+      }
+    }
+  },
+  "repositoryTooLarge": {
+    "title": "Repositorio demasiado grande",
+    "subtitle": "El repositorio indicado supera el límite permitido para el análisis.",
+    "submittedSize": "Tamaño enviado",
+    "allowedLimit": "Límite permitido",
+    "description": "Este repositorio es demasiado grande para ser analizado. Actualmente, el tamaño máximo permitido es de 40 MB.",
+    "close": "Entendido"
+  },
+  "architectureAnalysis": {
+    "title": "Análisis de arquitectura",
+    "description": "Visión general generada por la inteligencia artificial.",
+    "ai": "IA",
+    "loading": "Analizando el código con IA...",
+    "unavailable": "El análisis de la arquitectura aún no está disponible.",
+    "overview": "Visión general",
+    "architecture": "Arquitectura",
+    "strengths": "Puntos positivos",
+    "weaknesses": "Puntos de atención",
+    "recommendations": "Recomendaciones"
+  },
+  "dashboardHeader": {
+    "dashboard": "Dashboard",
+    "newAnalysis": "Nuevo análisis"
+  },
+  "projectStructure": {
+    "title": "Estructura del proyecto",
+    "description": "Estructura de archivos seleccionados durante el análisis.",
+    "files": "Archivos",
+    "relevant": "Relevantes",
+    "analyzed": "Analizados",
+    "skipped": "Ignorados",
+    "limitedAnalysis": "Análisis parcialmente limitado"
+  },
+  "repositoryStats": {
+    "labels": {
+      "stars": "Estrellas",
+      "forks": "Forks",
+      "language": "Lenguaje",
+      "branch": "Branch"
+    },
+    "descriptions": {
+      "stars": "Estrellas recibidas en GitHub",
+      "forks": "Forks realizados en el repositorio",
+      "language": "Principal lenguaje utilizado",
+      "branch": "Rama principal del repositorio"
+    }
+  },
+  "technologies": {
+  "title": "Tecnologías",
+  "description": "Tecnologías identificadas en el proyecto."
+}
+}

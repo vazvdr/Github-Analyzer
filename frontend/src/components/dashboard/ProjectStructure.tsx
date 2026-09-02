@@ -1,3 +1,5 @@
+"use client";
+import { useTranslation } from "react-i18next";
 import type { ProjectStructureProps } from "@/types/dashboard/project-structure.types";
 import { ProjectStructureUtils } from "@/utils/project-structure.utils";
 
@@ -6,6 +8,8 @@ export function ProjectStructure({
     structure,
     analysis,
 }: ProjectStructureProps) {
+    const { t } = useTranslation();
+
     const projectStructure =
         ProjectStructureUtils.buildProjectStructure(files);
 
@@ -13,11 +17,11 @@ export function ProjectStructure({
         <section className="dashboard-surface dashboard-border mt-6 rounded-xl border">
             <div className="dashboard-border border-b px-6 py-5">
                 <h2 className="font-semibold">
-                    Estrutura do projeto
+                    {t("projectStructure.title")}
                 </h2>
 
                 <p className="mt-1 text-sm">
-                    Estrutura de arquivos selecionados durante a análise.
+                    {t("projectStructure.description")}
                 </p>
             </div>
 
@@ -25,7 +29,7 @@ export function ProjectStructure({
                 <div className="dashboard-border grid gap-4 border-b px-6 py-5 sm:grid-cols-4">
                     <div>
                         <p className="text-xs">
-                            Arquivos
+                            {t("projectStructure.files")}
                         </p>
 
                         <p className="mt-1 font-semibold">
@@ -35,7 +39,7 @@ export function ProjectStructure({
 
                     <div>
                         <p className="text-xs">
-                            Relevantes
+                            {t("projectStructure.relevant")}
                         </p>
 
                         <p className="mt-1 font-semibold">
@@ -45,7 +49,7 @@ export function ProjectStructure({
 
                     <div>
                         <p className="text-xs">
-                            Analisados
+                            {t("projectStructure.analyzed")}
                         </p>
 
                         <p className="mt-1 font-semibold">
@@ -55,7 +59,7 @@ export function ProjectStructure({
 
                     <div>
                         <p className="text-xs">
-                            Ignorados
+                            {t("projectStructure.skipped")}
                         </p>
 
                         <p className="mt-1 font-semibold">
@@ -69,7 +73,7 @@ export function ProjectStructure({
                 <div className="dashboard-border border-b px-6 py-5">
                     <div className="dashboard-accent-background dashboard-accent-border rounded-lg border p-4">
                         <p className="dashboard-accent text-sm font-medium">
-                            Análise parcialmente limitada
+                            {t("projectStructure.limitedAnalysis")}
                         </p>
 
                         <p className="mt-1 text-sm">

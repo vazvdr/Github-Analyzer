@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslation } from "react-i18next";
+
 import type { RepositoryTooLargeDialogProps } from "@/types/landing/repository-too-large-dialog.types";
 
 export function RepositoryTooLargeDialog({
@@ -5,6 +9,8 @@ export function RepositoryTooLargeDialog({
     onClose,
     formatRepositorySize,
 }: RepositoryTooLargeDialogProps) {
+    const { t } = useTranslation();
+
     return (
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-sm"
@@ -37,12 +43,11 @@ export function RepositoryTooLargeDialog({
                                 id="repository-too-large-title"
                                 className="text-lg font-semibold"
                             >
-                                Repositório muito grande
+                                {t("repositoryTooLarge.title")}
                             </h2>
 
                             <p className="mt-1 text-sm">
-                                O repositório informado excede o limite permitido
-                                para análise.
+                                {t("repositoryTooLarge.subtitle")}
                             </p>
                         </div>
                     </div>
@@ -52,7 +57,7 @@ export function RepositoryTooLargeDialog({
                     <div className="grid grid-cols-2 gap-3">
                         <div className="rounded-xl border p-4">
                             <p className="text-xs">
-                                Tamanho enviado
+                                {t("repositoryTooLarge.submittedSize")}
                             </p>
 
                             <p className="mt-1 text-lg font-semibold">
@@ -62,7 +67,7 @@ export function RepositoryTooLargeDialog({
 
                         <div className="rounded-xl border p-4">
                             <p className="text-xs">
-                                Limite permitido
+                                {t("repositoryTooLarge.allowedLimit")}
                             </p>
 
                             <p className="mt-1 text-lg font-semibold">
@@ -72,8 +77,7 @@ export function RepositoryTooLargeDialog({
                     </div>
 
                     <p className="mt-5 text-sm leading-6">
-                        Este repositório é muito grande para ser analisado. No
-                        momento, o tamanho máximo permitido é de 40 MB.
+                        {t("repositoryTooLarge.description")}
                     </p>
 
                     <button
@@ -81,7 +85,7 @@ export function RepositoryTooLargeDialog({
                         onClick={onClose}
                         className="mt-6 h-11 w-full cursor-pointer rounded-lg px-5 text-sm font-semibold transition"
                     >
-                        Entendi
+                        {t("repositoryTooLarge.close")}
                     </button>
                 </div>
             </div>

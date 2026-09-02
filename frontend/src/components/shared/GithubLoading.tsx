@@ -19,9 +19,7 @@ export function GitHubLoading({
                 </div>
 
                 {/* Conteúdo */}
-                <div className="relative z-10 flex flex-col items-start gap-5">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-foreground/20 border-t-foreground" />
-
+                <div className="relative z-10 flex -translate-y-40 flex-col items-center gap-5">
                     <p className="text-sm font-medium text-muted-foreground">
                         {message}
                     </p>

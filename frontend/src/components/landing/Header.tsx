@@ -2,11 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ThemeToggle } from "../theme/ThemeToggle";
+import { IdiomSelector } from "../idiom/IdiomSelector";
 import { scrollToSection } from "@/utils/scroll-to-section";
 
 export function Header() {
+    const { t } = useTranslation();
+
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleScrollToSection = (
@@ -43,14 +47,15 @@ export function Header() {
 
                     {/* Desktop */}
                     <nav className="hidden items-center gap-4 text-sm sm:flex">
+                        <IdiomSelector />
                         <a
                             href="#como-funciona"
                             onClick={(event) =>
                                 scrollToSection(event, "como-funciona")
                             }
-                            className="transition-colors font-semibold hover:text-foreground"
+                            className="font-semibold transition-colors hover:text-foreground"
                         >
-                            Como funciona
+                            {t("header.howItWorks")}
                         </a>
 
                         <a
@@ -58,23 +63,23 @@ export function Header() {
                             onClick={(event) =>
                                 scrollToSection(event, "recursos")
                             }
-                            className="transition-colors font-semibold hover:text-foreground"
+                            className="font-semibold transition-colors hover:text-foreground"
                         >
-                            Recursos
+                            {t("header.features")}
                         </a>
-
                         <ThemeToggle />
                     </nav>
 
                     {/* Mobile */}
                     <div className="flex items-center gap-2 sm:hidden">
+                        <IdiomSelector />
                         <button
                             type="button"
                             onClick={() => setMenuOpen((open) => !open)}
                             aria-label={
                                 menuOpen
-                                    ? "Fechar menu"
-                                    : "Abrir menu"
+                                    ? t("header.closeMenu")
+                                    : t("header.openMenu")
                             }
                             aria-expanded={menuOpen}
                             className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-muted"
@@ -127,7 +132,7 @@ export function Header() {
                                 }
                                 className="rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
                             >
-                                Como funciona
+                                {t("header.howItWorks")}
                             </a>
 
                             <a
@@ -140,7 +145,7 @@ export function Header() {
                                 }
                                 className="rounded-lg px-3 py-3 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
                             >
-                                Recursos
+                                {t("header.features")}
                             </a>
                         </div>
                     </nav>
