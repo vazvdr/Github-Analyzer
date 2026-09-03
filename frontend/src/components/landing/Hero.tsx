@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n/i18n";
 
 import { useHero } from "@/hooks/useHero";
 import { RepositoryTooLargeDialog } from "@/components/landing/RepositoryTooLargeDialog";
@@ -9,6 +10,8 @@ import { ButtonClearInput } from "@/components/landing/ButtonClearInput";
 
 export function Hero() {
     const { t } = useTranslation();
+     const language = i18n.language?.split("-")[0] as
+        "pt" | "en" | "es";
 
     const {
         repositoryUrl,
@@ -20,7 +23,7 @@ export function Hero() {
         repositorySize,
         handleAnalyze,
         formatRepositorySize,
-    } = useHero();
+    } = useHero(language);
 
     const [showHero, setShowHero] = useState(false);
 

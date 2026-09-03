@@ -1,23 +1,27 @@
 import { generateGeminiContent } from "./gemini-client";
 import type { AIRepositoryAnalysis } from "@/lib/github/github.types";
-import { buildRepositoryAnalysisPrompt } from "./gemini-prompts";
-
+import {
+    buildRepositoryAnalysisPrompt,
+    type SupportedLanguage,
+} from "./gemini-prompts";
 interface RepositoryFile {
     path: string;
     content: string;
 }
 export async function analyzeRepositoryWithGemini(
     repositoryName: string,
-    files: RepositoryFile[]
+    files: RepositoryFile[],
+    language: SupportedLanguage
 ): Promise<AIRepositoryAnalysis> {
     const prompt = buildRepositoryAnalysisPrompt(
         repositoryName,
-        files
+        files,
+        language
     );
     const response = await generateGeminiContent(
         prompt,
-        "gemini-3.6-flash",
-        "gemini-3.5-flash-lite"
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-flash-lite"
     );
     const text = response.text?.trim();
     if (!text) {
@@ -51,5 +55,6 @@ export async function analyzeRepositoryWithGemini(
             "A resposta do Gemini não possui o formato esperado."
         );
     }
+
     return analysis;
 }

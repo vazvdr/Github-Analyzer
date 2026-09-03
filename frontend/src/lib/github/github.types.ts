@@ -60,11 +60,17 @@ export interface GitHubAnalysisStructure {
 export interface GitHubAnalysisData {
     repository: GitHubRepositoryResponse;
     languages: string[];
-    branch: string; sha: string;
+    branch: string;
+    sha: string;
     structure: ProjectStructureProps["structure"];
     analysis: ProjectStructureProps["analysis"];
     files: GitHubTreeItem[];
     skippedFiles: string[];
+    aiAnalysis: {
+        pt: AIRepositoryAnalysis | null;
+        en: AIRepositoryAnalysis | null;
+        es: AIRepositoryAnalysis | null;
+    };
 }
 
 export interface AIRepositoryAnalysis {

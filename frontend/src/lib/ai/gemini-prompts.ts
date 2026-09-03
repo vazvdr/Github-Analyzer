@@ -1,9 +1,18 @@
+export type SupportedLanguage = "pt" | "en" | "es";
+
+const languageInstructions: Record<SupportedLanguage, string> = {
+    pt: "Responda toda a análise em português do Brasil.",
+    en: "Write the entire analysis in English.",
+    es: "Escribe todo el análisis en español.",
+};
+
 export function buildRepositoryAnalysisPrompt(
     repositoryName: string,
     files: {
         path: string;
         content: string;
-    }[]
+    }[],
+    language: SupportedLanguage
 ): string {
     const repositoryCode = files
         .map(
@@ -22,7 +31,15 @@ Você é um arquiteto de software especialista em análise de código.
 
 Analise o repositório "${repositoryName}" exclusivamente com base nos arquivos fornecidos abaixo.
 
+IDIOMA DA RESPOSTA:
+${languageInstructions[language]}
+
 IMPORTANTE:
+- A resposta inteira deve estar no idioma selecionado acima.
+- Não misture idiomas na resposta.
+- Os valores dos campos do JSON também devem estar no idioma selecionado.
+- As chaves do JSON devem permanecer exatamente em inglês.
+- Não traduza nem altere os nomes das chaves do JSON.
 - Não invente tecnologias, bibliotecas, frameworks, padrões arquiteturais ou funcionalidades.
 - Só mencione algo se houver evidência nos arquivos fornecidos.
 - Se não houver informação suficiente para afirmar algo, não faça a afirmação.
