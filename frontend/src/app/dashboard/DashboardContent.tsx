@@ -23,7 +23,6 @@ export default function DashboardContent() {
         technologies,
         owner,
         aiAnalysis,
-        aiLoading,
      } = useDashboard();
 
     if (loading) {
@@ -50,9 +49,7 @@ export default function DashboardContent() {
                 <section className="mt-8 grid gap-6 lg:grid-cols-3">
                     <ArchitectureAnalysis
                         analysis={aiAnalysis}
-                        loading={aiLoading}
                     />
-
                     <Technologies
                         technologies={technologies}
                     />
