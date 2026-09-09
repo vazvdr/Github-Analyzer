@@ -19,11 +19,7 @@ export interface RepositoryAnalysisCache {
     };
     files: ProcessedGitHubFile[];
     skippedFiles: string[];
-    aiAnalysis: {
-        pt: AIRepositoryAnalysis | null;
-        en: AIRepositoryAnalysis | null;
-        es: AIRepositoryAnalysis | null;
-    };
+    aiAnalysis: AIRepositoryAnalysis | null;
     createdAt: string;
 }
 export interface RepositoryChunk {

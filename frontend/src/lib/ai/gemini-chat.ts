@@ -3,11 +3,10 @@ import { generateGeminiContent } from "./gemini-client";
 import type {
     AIRepositoryAnalysis,
 } from "@/lib/github/github.types";
+
 import type {
     RepositoryChunk,
 } from "@/lib/redis/redis.types";
-
-export type ChatLanguage = "pt" | "en" | "es";
 
 interface RepositoryChatContext {
     path: string;
@@ -16,22 +15,9 @@ interface RepositoryChatContext {
     endLine?: number;
 }
 
-function getLanguageInstruction(language: ChatLanguage): string {
-    switch (language) {
-        case "en":
-            return "Respond exclusively in English.";
-        case "es":
-            return "Responde exclusivamente en español.";
-        case "pt":
-        default:
-            return "Responda exclusivamente em português.";
-    }
-}
-
 function buildRepositoryChatPrompt(
     repositoryName: string,
     question: string,
-    language: ChatLanguage,
     aiAnalysis: AIRepositoryAnalysis | null,
     chunks: RepositoryChunk[],
     history: {
@@ -39,12 +25,13 @@ function buildRepositoryChatPrompt(
         content: string;
     }[]
 ): string {
-    const repositoryContext: RepositoryChatContext[] = chunks.map((chunk) => ({
-        path: chunk.path,
-        content: chunk.content,
-        startLine: chunk.startLine,
-        endLine: chunk.endLine,
-    }));
+    const repositoryContext: RepositoryChatContext[] =
+        chunks.map((chunk) => ({
+            path: chunk.path,
+            content: chunk.content,
+            startLine: chunk.startLine,
+            endLine: chunk.endLine,
+        }));
 
     const formattedChunks = repositoryContext
         .map(
@@ -57,27 +44,64 @@ ${chunk.content}`
         .join("\n\n");
 
     const analysisContext = aiAnalysis
-        ? `VISÃO GERAL:
-${aiAnalysis.overview}
+        ? `PORTUGUÊS:
+VISÃO GERAL:
+${aiAnalysis.pt.overview}
 
 ARQUITETURA:
-${aiAnalysis.architecture}
+${aiAnalysis.pt.architecture}
 
 PONTOS FORTES:
-${aiAnalysis.strengths.join("\n- ")}
+${aiAnalysis.pt.strengths.join("\n- ")}
 
 PONTOS FRACOS:
-${aiAnalysis.weaknesses.join("\n- ")}
+${aiAnalysis.pt.weaknesses.join("\n- ")}
 
 RECOMENDAÇÕES:
-${aiAnalysis.recommendations.join("\n- ")}`
+${aiAnalysis.pt.recommendations.join("\n- ")}
+
+INGLÊS:
+OVERVIEW:
+${aiAnalysis.en.overview}
+
+ARCHITECTURE:
+${aiAnalysis.en.architecture}
+
+STRENGTHS:
+${aiAnalysis.en.strengths.join("\n- ")}
+
+WEAKNESSES:
+${aiAnalysis.en.weaknesses.join("\n- ")}
+
+RECOMMENDATIONS:
+${aiAnalysis.en.recommendations.join("\n- ")}
+
+ESPANHOL:
+DESCRIPCIÓN GENERAL:
+${aiAnalysis.es.overview}
+
+ARQUITECTURA:
+${aiAnalysis.es.architecture}
+
+PUNTOS FUERTES:
+${aiAnalysis.es.strengths.join("\n- ")}
+
+PUNTOS DÉBILES:
+${aiAnalysis.es.weaknesses.join("\n- ")}
+
+RECOMENDACIONES:
+${aiAnalysis.es.recommendations.join("\n- ")}`
         : "Nenhuma análise geral disponível.";
 
     const conversationHistory = history
         .slice(-8)
         .map(
             (message) =>
-                `${message.role === "user" ? "USUÁRIO" : "ASSISTENTE"}: ${message.content}`
+                `${
+                    message.role === "user"
+                        ? "USUÁRIO"
+                        : "ASSISTENTE"
+                }: ${message.content}`
         )
         .join("\n\n");
 
@@ -90,7 +114,14 @@ Sua função é responder perguntas sobre esse repositório utilizando exclusiva
 2. Os trechos de código recuperados para a pergunta.
 3. O histórico da conversa.
 
-${getLanguageInstruction(language)}
+IDIOMA DA RESPOSTA:
+- O usuário pode solicitar qualquer idioma na pergunta.
+- Responda no idioma solicitado explicitamente pelo usuário.
+- O idioma solicitado pode ser qualquer idioma, incluindo alemão, francês, italiano, japonês, espanhol, inglês, português ou outros.
+- Se o usuário não especificar um idioma, responda no mesmo idioma predominante utilizado na pergunta.
+- Nunca limite a resposta apenas a português, inglês ou espanhol.
+- Não traduza nomes de arquivos, funções, classes, componentes, bibliotecas ou tecnologias.
+- Se o usuário pedir explicitamente para responder em determinado idioma, siga essa instrução.
 
 REGRAS IMPORTANTES:
 - Utilize somente as informações fornecidas no contexto.
@@ -117,10 +148,10 @@ ${formattedChunks || "Nenhum trecho relevante encontrado."}
 PERGUNTA ATUAL:
 ${question}`;
 }
+
 export async function chatWithRepositoryUsingGemini(
     repositoryName: string,
     question: string,
-    language: ChatLanguage,
     aiAnalysis: AIRepositoryAnalysis | null,
     chunks: RepositoryChunk[],
     history: {
@@ -131,19 +162,24 @@ export async function chatWithRepositoryUsingGemini(
     const prompt = buildRepositoryChatPrompt(
         repositoryName,
         question,
-        language,
         aiAnalysis,
         chunks,
         history
     );
+
     const response = await generateGeminiContent(
         prompt,
         "gemini-3.5-flash-lite",
         "gemini-3.1-flash-lite"
     );
+
     const text = response.text?.trim();
+
     if (!text) {
-        throw new Error("O Gemini não retornou uma resposta.");
+        throw new Error(
+            "O Gemini não retornou uma resposta."
+        );
     }
+
     return text;
 }
