@@ -2,6 +2,7 @@ import { generateGeminiContent } from "./gemini-client";
 
 import type {
     AIRepositoryAnalysis,
+    AIRepositoryAnalysisTranslation,
 } from "@/lib/github/github.types";
 
 import type {
@@ -13,6 +14,32 @@ interface RepositoryChatContext {
     content: string;
     startLine?: number;
     endLine?: number;
+}
+
+function formatAnalysisTranslation(
+    label: string,
+    translation: AIRepositoryAnalysisTranslation | null | undefined
+): string {
+    if (!translation) {
+        return `${label}:
+ANÁLISE NÃO DISPONÍVEL.`;
+    }
+
+    return `${label}:
+VISÃO GERAL:
+${translation.overview}
+
+ARQUITETURA:
+${translation.architecture}
+
+PONTOS FORTES:
+${translation.strengths.join("\n- ")}
+
+PONTOS FRACOS:
+${translation.weaknesses.join("\n- ")}
+
+RECOMENDAÇÕES:
+${translation.recommendations.join("\n- ")}`;
 }
 
 function buildRepositoryChatPrompt(
@@ -44,53 +71,20 @@ ${chunk.content}`
         .join("\n\n");
 
     const analysisContext = aiAnalysis
-        ? `PORTUGUÊS:
-VISÃO GERAL:
-${aiAnalysis.pt.overview}
+        ? `${formatAnalysisTranslation(
+              "PORTUGUÊS",
+              aiAnalysis.pt
+          )}
 
-ARQUITETURA:
-${aiAnalysis.pt.architecture}
+${formatAnalysisTranslation(
+    "INGLÊS",
+    aiAnalysis.en
+)}
 
-PONTOS FORTES:
-${aiAnalysis.pt.strengths.join("\n- ")}
-
-PONTOS FRACOS:
-${aiAnalysis.pt.weaknesses.join("\n- ")}
-
-RECOMENDAÇÕES:
-${aiAnalysis.pt.recommendations.join("\n- ")}
-
-INGLÊS:
-OVERVIEW:
-${aiAnalysis.en.overview}
-
-ARCHITECTURE:
-${aiAnalysis.en.architecture}
-
-STRENGTHS:
-${aiAnalysis.en.strengths.join("\n- ")}
-
-WEAKNESSES:
-${aiAnalysis.en.weaknesses.join("\n- ")}
-
-RECOMMENDATIONS:
-${aiAnalysis.en.recommendations.join("\n- ")}
-
-ESPANHOL:
-DESCRIPCIÓN GENERAL:
-${aiAnalysis.es.overview}
-
-ARQUITECTURA:
-${aiAnalysis.es.architecture}
-
-PUNTOS FUERTES:
-${aiAnalysis.es.strengths.join("\n- ")}
-
-PUNTOS DÉBILES:
-${aiAnalysis.es.weaknesses.join("\n- ")}
-
-RECOMENDACIONES:
-${aiAnalysis.es.recommendations.join("\n- ")}`
+${formatAnalysisTranslation(
+    "ESPANHOL",
+    aiAnalysis.es
+)}`
         : "Nenhuma análise geral disponível.";
 
     const conversationHistory = history
