@@ -1,18 +1,9 @@
-export type SupportedLanguage = "pt" | "en" | "es";
-
-const languageInstructions: Record<SupportedLanguage, string> = {
-    pt: "Responda toda a análise em português do Brasil.",
-    en: "Write the entire analysis in English.",
-    es: "Escribe todo el análisis en español.",
-};
-
 export function buildRepositoryAnalysisPrompt(
     repositoryName: string,
     files: {
         path: string;
         content: string;
-    }[],
-    language: SupportedLanguage
+    }[]
 ): string {
     const repositoryCode = files
         .map(
@@ -31,13 +22,14 @@ Você é um arquiteto de software especialista em análise de código.
 
 Analise o repositório "${repositoryName}" exclusivamente com base nos arquivos fornecidos abaixo.
 
-IDIOMA DA RESPOSTA:
-${languageInstructions[language]}
-
 IMPORTANTE:
-- A resposta inteira deve estar no idioma selecionado acima.
-- Não misture idiomas na resposta.
-- Os valores dos campos do JSON também devem estar no idioma selecionado.
+
+- Gere a mesma análise em três idiomas: português do Brasil, inglês e espanhol.
+- As três versões devem apresentar exatamente os mesmos fatos, conclusões, pontos fortes, pontos fracos e recomendações.
+- A única diferença entre as versões deve ser o idioma.
+- Não omita informações em nenhuma das versões.
+- Não adicione informações que não existam nas outras versões.
+- Os valores dos campos do JSON devem estar no idioma correspondente.
 - As chaves do JSON devem permanecer exatamente em inglês.
 - Não traduza nem altere os nomes das chaves do JSON.
 - Não invente tecnologias, bibliotecas, frameworks, padrões arquiteturais ou funcionalidades.
@@ -50,20 +42,48 @@ IMPORTANTE:
 Retorne SOMENTE um JSON válido seguindo exatamente este formato:
 
 {
-  "overview": "string",
-  "architecture": "string",
-  "strengths": [
-    "string"
-  ],
-  "weaknesses": [
-    "string"
-  ],
-  "recommendations": [
-    "string"
-  ]
+  "pt": {
+    "overview": "string",
+    "architecture": "string",
+    "strengths": [
+      "string"
+    ],
+    "weaknesses": [
+      "string"
+    ],
+    "recommendations": [
+      "string"
+    ]
+  },
+  "en": {
+    "overview": "string",
+    "architecture": "string",
+    "strengths": [
+      "string"
+    ],
+    "weaknesses": [
+      "string"
+    ],
+    "recommendations": [
+      "string"
+    ]
+  },
+  "es": {
+    "overview": "string",
+    "architecture": "string",
+    "strengths": [
+      "string"
+    ],
+    "weaknesses": [
+      "string"
+    ],
+    "recommendations": [
+      "string"
+    ]
+  }
 }
 
-Regras para cada campo:
+REGRAS PARA CADA IDIOMA:
 
 - "overview":
   Explique resumidamente como o projeto funciona e quais são suas principais características técnicas identificadas no código.
@@ -83,16 +103,17 @@ Regras para cada campo:
   Sugira melhorias técnicas relacionadas diretamente aos problemas ou limitações identificados.
   Não recomende tecnologias sem justificativa baseada no código.
 
-Regras gerais:
+REGRAS GERAIS:
 
-- Retorne entre 2 e 5 itens em "strengths".
-- Retorne entre 2 e 5 itens em "weaknesses".
-- Retorne entre 2 e 5 itens em "recommendations".
+- Retorne entre 2 e 5 itens em "strengths" para cada idioma.
+- Retorne entre 2 e 5 itens em "weaknesses" para cada idioma.
+- Retorne entre 2 e 5 itens em "recommendations" para cada idioma.
+- As listas dos três idiomas devem representar os mesmos pontos.
 - Não utilize Markdown.
 - Não inclua comentários fora do JSON.
 - Não inclua blocos de código.
 - Seja técnico, objetivo e específico.
-- Não repita a mesma informação em campos diferentes.
+- Não repita a mesma informação desnecessariamente.
 - Baseie toda a análise exclusivamente nos arquivos fornecidos.
 
 CÓDIGO DO REPOSITÓRIO:

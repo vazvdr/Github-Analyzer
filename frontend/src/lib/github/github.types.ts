@@ -1,5 +1,7 @@
 import type { ProjectStructureProps } from "@/types/dashboard/project-structure.types";
 
+export type SupportedLanguage = "pt" | "en" | "es";
+
 export interface GitHubRepository {
     owner: string;
     repository: string;
@@ -57,6 +59,20 @@ export interface GitHubAnalysisStructure {
     truncated: boolean;
 }
 
+export interface AIRepositoryAnalysisTranslation {
+    overview: string;
+    architecture: string;
+    strengths: string[];
+    weaknesses: string[];
+    recommendations: string[];
+}
+
+export interface AIRepositoryAnalysis {
+    pt: AIRepositoryAnalysisTranslation;
+    en: AIRepositoryAnalysisTranslation;
+    es: AIRepositoryAnalysisTranslation;
+}
+
 export interface GitHubAnalysisData {
     repository: GitHubRepositoryResponse;
     languages: string[];
@@ -66,17 +82,6 @@ export interface GitHubAnalysisData {
     analysis: ProjectStructureProps["analysis"];
     files: GitHubTreeItem[];
     skippedFiles: string[];
-    aiAnalysis: {
-        pt: AIRepositoryAnalysis | null;
-        en: AIRepositoryAnalysis | null;
-        es: AIRepositoryAnalysis | null;
-    };
-}
-
-export interface AIRepositoryAnalysis {
-    overview: string;
-    architecture: string;
-    strengths: string[];
-    weaknesses: string[];
-    recommendations: string[];
+    aiAnalysis: AIRepositoryAnalysis | null;
+    initialLanguage?: SupportedLanguage;
 }

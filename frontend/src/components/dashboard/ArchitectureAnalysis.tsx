@@ -1,8 +1,11 @@
 "use client";
 import { useTranslation } from "react-i18next";
-import type { AIRepositoryAnalysis } from "@/lib/github/github.types";
+import type {
+    AIRepositoryAnalysisTranslation,
+} from "@/lib/github/github.types";
+
 interface ArchitectureAnalysisProps {
-    analysis: AIRepositoryAnalysis | null;
+    analysis: AIRepositoryAnalysisTranslation | null;
 }
 export function ArchitectureAnalysis({
     analysis,

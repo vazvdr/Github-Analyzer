@@ -2,7 +2,7 @@ import type { FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { parseGitHubRepository } from "@/lib/github/github-url";
-import type { SupportedLanguage } from "@/lib/ai/gemini-prompts";
+import type { SupportedLanguage } from "@/lib/github/github.types";
 
 export function useHero(language: SupportedLanguage) {
     const router = useRouter();
@@ -32,6 +32,8 @@ export function useHero(language: SupportedLanguage) {
             );
             return;
         }
+        const initialLanguage: SupportedLanguage =
+            language;
         setLoading(true);
         try {
             const response = await fetch(
@@ -44,7 +46,6 @@ export function useHero(language: SupportedLanguage) {
                     body: JSON.stringify({
                         action: "analyze",
                         url,
-                        language,
                     }),
                 }
             );
@@ -69,7 +70,10 @@ export function useHero(language: SupportedLanguage) {
             }
             sessionStorage.setItem(
                 "github-analysis",
-                JSON.stringify(data)
+                JSON.stringify({
+                    ...data,
+                    initialLanguage,
+                })
             );
             router.push(
                 `/dashboard?repository=${encodeURIComponent(url)}`

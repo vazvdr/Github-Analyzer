@@ -187,7 +187,7 @@ export function RepositoryChat({
                             loading ||
                             !input.trim()
                         }
-                        className="dashboard-button h-11 cursor-pointer rounded-lg px-5 text-sm font-semibold transition-all duration-200 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+                        className="h-11 cursor-pointer rounded-lg px-5 text-sm font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50"
                     >
                         {loading
                             ? t(

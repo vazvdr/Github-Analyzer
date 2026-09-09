@@ -1,80 +1,90 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
-
 import type {
-    AIRepositoryAnalysis,
+    AIRepositoryAnalysisTranslation,
     GitHubAnalysisData,
     GitHubRepositoryResponse,
     GitHubTreeItem,
 } from "@/lib/github/github.types";
-
 import type { ProjectStructureProps } from "@/types/dashboard/project-structure.types";
-
+type SupportedLanguage = "pt" | "en" | "es";
+function normalizeLanguage(
+    language: string | undefined
+): SupportedLanguage {
+    const normalized = language?.split("-")[0];
+    if (
+        normalized === "en" ||
+        normalized === "es"
+    ) {
+        return normalized;
+    }
+    return "pt";
+}
 export function useDashboard() {
     const searchParams = useSearchParams();
     const { i18n } = useTranslation();
-
     const [repository, setRepository] =
-        useState<GitHubRepositoryResponse | null>(null);
-
+        useState<GitHubRepositoryResponse | null>(
+            null
+        );
     const [files, setFiles] =
         useState<GitHubTreeItem[]>([]);
-
     const [structure, setStructure] =
         useState<ProjectStructureProps["structure"]>(
             undefined
         );
-
     const [analysis, setAnalysis] =
         useState<ProjectStructureProps["analysis"]>(
             undefined
         );
-
     const [technologies, setTechnologies] =
         useState<string[]>([]);
-
     const [aiAnalysis, setAiAnalysis] =
-        useState<AIRepositoryAnalysis | null>(null);
-
-    const [loading, setLoading] = useState(true);
-
+        useState<AIRepositoryAnalysisTranslation | null>(
+            null
+        );
+    const [loading, setLoading] =
+        useState(true);
+    const [initialLanguage, setInitialLanguage] =
+        useState<SupportedLanguage>("pt");
     const repositoryUrl =
         searchParams.get("repository") ?? "";
-
-    const language =
-        i18n.language?.split("-")[0] as
-            | "pt"
-            | "en"
-            | "es";
-
     useEffect(() => {
         const storedAnalysis =
             sessionStorage.getItem(
                 "github-analysis"
             );
-
         if (!storedAnalysis) {
             setLoading(false);
             return;
         }
-
         try {
             const data =
                 JSON.parse(
                     storedAnalysis
                 ) as GitHubAnalysisData;
-
+            const savedInitialLanguage =
+                normalizeLanguage(
+                    data.initialLanguage
+                );
+            setInitialLanguage(
+                savedInitialLanguage
+            );
             setRepository(data.repository);
             setFiles(data.files ?? []);
             setStructure(data.structure);
             setAnalysis(data.analysis);
-            setTechnologies(data.languages ?? []);
-
+            setTechnologies(
+                data.languages ?? []
+            );
+            const selectedAnalysis =
+                data.aiAnalysis?.[
+                    savedInitialLanguage
+                ] ?? null;
             setAiAnalysis(
-                data.aiAnalysis?.[language] ?? null
+                selectedAnalysis
             );
         } catch (error) {
             console.error(
@@ -84,8 +94,51 @@ export function useDashboard() {
         } finally {
             setLoading(false);
         }
-    }, [repositoryUrl, language]);
+    }, [repositoryUrl]);
+    useEffect(() => {
+        function handleLanguageChange(
+            language: string
+        ) {
+            const normalizedLanguage =
+                normalizeLanguage(language);
 
+            const storedAnalysis =
+                sessionStorage.getItem(
+                    "github-analysis"
+                );
+            if (!storedAnalysis) {
+                return;
+            }
+            try {
+                const data =
+                    JSON.parse(
+                        storedAnalysis
+                    ) as GitHubAnalysisData;
+                const selectedAnalysis =
+                    data.aiAnalysis?.[
+                        normalizedLanguage
+                    ] ?? null;
+                setAiAnalysis(
+                    selectedAnalysis
+                );
+            } catch (error) {
+                console.error(
+                    "Erro ao atualizar idioma da análise:",
+                    error
+                );
+            }
+        }
+        i18n.on(
+            "languageChanged",
+            handleLanguageChange
+        );
+        return () => {
+            i18n.off(
+                "languageChanged",
+                handleLanguageChange
+            );
+        };
+    }, [i18n]);
     const repositoryStats = repository
         ? [
               {
@@ -123,7 +176,6 @@ export function useDashboard() {
               },
           ]
         : [];
-
     const repositoryPath =
         repositoryUrl
             .replace(
@@ -131,10 +183,8 @@ export function useDashboard() {
                 ""
             )
             .replace(/\/$/, "");
-
     const [owner] =
         repositoryPath.split("/");
-
     return {
         repository,
         files,
@@ -146,5 +196,6 @@ export function useDashboard() {
         technologies,
         owner: owner ?? "",
         aiAnalysis,
+        initialLanguage,
     };
 }
