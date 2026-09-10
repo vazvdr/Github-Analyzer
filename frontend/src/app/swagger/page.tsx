@@ -13,7 +13,7 @@ const SwaggerUI = dynamic(
 
 export default function SwaggerPage() {
     return (
-        <main className="min-h-screen bg-background p-4">
+        <main className="min-h-screen min-w-screen bg-white p-4">
             <SwaggerUI spec={swaggerSpec} />
         </main>
     );
