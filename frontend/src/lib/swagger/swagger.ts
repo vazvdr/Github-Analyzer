@@ -12,8 +12,8 @@ export const swaggerSpec: OpenAPIV3.Document = {
 
     servers: [
         {
-            url: "http://localhost:3000",
-            description: "Ambiente de desenvolvimento",
+            url: "https://analisadordegithub.vercel.app",
+            description: "Ambiente de produção",
         },
     ],
 
