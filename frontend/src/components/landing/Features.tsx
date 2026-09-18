@@ -24,7 +24,7 @@ export function Features() {
     return (
         <section
             id="recursos"
-            className="mx-auto max-w-6xl border-y border-[var(--section-border)] px-6 py-20"
+            className="mx-auto max-w-6xl px-6 py-20"
         >
             <div className="text-center">
                 <span className="text-sm font-semibold">
