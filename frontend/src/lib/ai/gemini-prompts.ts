@@ -117,7 +117,6 @@ REGRAS GERAIS:
 - Baseie toda a análise exclusivamente nos arquivos fornecidos.
 
 CÓDIGO DO REPOSITÓRIO:
-
 ${repositoryCode}
 `;
 }
