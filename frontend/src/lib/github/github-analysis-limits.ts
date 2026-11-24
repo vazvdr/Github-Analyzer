@@ -1,8 +1,8 @@
 export const GITHUB_ANALYSIS_LIMITS = {
     //limites do zip
-    maxZipSize: 40 * 1024 * 1024,
+    maxZipSize: 100 * 1024 * 1024,
     //limites do processamento
-    maxRelevantFiles: 300,
+    maxRelevantFiles: 500,
     maxFileSize: 500 * 1024,
     maxTotalContentSize: 5 * 1024 * 1024,
     //limites de segurança do zip
